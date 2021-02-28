@@ -73,6 +73,11 @@
 				</configuration>
 			</storageModule>
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+			<storageModule buildDir="build/${ConfigName}" moduleId="de.marw.cdt.cmake.core.settings">
+				<options/>
+				<defs/>
+				<undefs/>
+			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="de.marw.cmake.cdt.lsp.config.release.1305889792">
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="de.marw.cmake.cdt.lsp.config.release.1305889792" moduleId="org.eclipse.cdt.core.settings" name="Release">
