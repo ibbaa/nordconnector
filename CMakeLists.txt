@@ -8,8 +8,12 @@ include(${CMAKE_BINARY_DIR}/../conan/conanbuildinfo.cmake)
 conan_basic_setup()
 
 set(SOURCES 
-    src/main.cpp
+	src/nordvpncc.cpp
+	src/args/NVPNOptions.cpp
+	src/args/CommandLineParser.cpp
 )
 
 add_executable(nordvpncc ${SOURCES})
+target_include_directories(nordvpncc PUBLIC include PRIVATE src)
 target_link_libraries(nordvpncc ${CONAN_LIBS})
+
