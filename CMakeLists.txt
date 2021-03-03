@@ -11,6 +11,7 @@ set(SOURCES
 	src/nordvpncc.cpp
 	src/args/NVPNOptions.cpp
 	src/args/CommandLineParser.cpp
+	src/server/AsyncHTTPDownloader.cpp
 )
 
 add_executable(nordvpncc ${SOURCES})
