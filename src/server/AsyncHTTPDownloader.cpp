@@ -16,7 +16,11 @@
 #include <Poco/StreamCopier.h>
 #include <Poco/Exception.h>
 
-std::string AsyncHTTPDownloader::download(const std::string &urlstr) {
+std::future<std::string> AsyncHTTPDownloader::download(const std::string &urlstr) {
+    return std::async(std::launch::async, &AsyncHTTPDownloader::async_download, *this, urlstr);
+}
+
+std::string AsyncHTTPDownloader::async_download(const std::string &urlstr) {
     std::string data;
     try {
         Poco::Net::HTTPStreamFactory::registerFactory();
@@ -27,11 +31,9 @@ std::string AsyncHTTPDownloader::download(const std::string &urlstr) {
         Poco::Net::SSLManager::instance().initializeClient(0, ptrHandler, ptrContext);
         Poco::URI uri(urlstr);
         std::unique_ptr<std::istream> pStr(Poco::URIStreamOpener::defaultOpener().open(uri));
-        Poco::StreamCopier::copyStream(*pStr.get(), std::cout);
+        Poco::StreamCopier::copyToString(*pStr.get(), data);
     } catch (Poco::Exception &exc) {
         std::cerr << "Error downloading from " << urlstr << ": " << exc.displayText() << std::endl;
-        exit(3);
     }
     return data;
 }
-

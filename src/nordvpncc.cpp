@@ -1,11 +1,11 @@
 #include "args/CommandLineParser.h"
 #include "server/AsyncHTTPDownloader.h"
+#include <iostream>
+#include <string>
 #include <Poco/Timestamp.h>
 #include <Poco/Timezone.h>
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/DateTimeFormat.h>
-#include <iostream>
-#include <string>
 
 int main(int argc, char *argv[]) {
     Poco::Timestamp now;
@@ -15,7 +15,8 @@ int main(int argc, char *argv[]) {
     CommandLineParser parser;
     const NVPNOptions &options = parser.parse(argc, argv);
     AsyncHTTPDownloader downloader;
-    const std::string &data = downloader.download(options.get_stat());
+    std::future<std::string> result = downloader.download(options.get_stat());
+    const std::string &data = result.get();
     std::cout << data << std::endl;
     return 0;
 }
