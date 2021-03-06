@@ -10,12 +10,13 @@ class CommandLineParser {
     public:
         NVPNOptions parse(int argc, char *argv[]);
     private:
-        std::string get_server(const cxxopts::ParseResult &result) const;
+        bool get_server(const cxxopts::ParseResult &result) const;
         std::vector<std::string> get_countries(const cxxopts::ParseResult &result) const;
         std::string get_ovpn(const cxxopts::ParseResult &result) const;
         std::string get_stat(const cxxopts::ParseResult &result) const;
         std::string get_user(const cxxopts::ParseResult &result) const;
         std::string get_password(const cxxopts::ParseResult &result) const;
+        bool get_verbose(const cxxopts::ParseResult &result) const;
 };
 
 #endif /* SRC_ARGS_COMMANDLINEPARSER_H_ */

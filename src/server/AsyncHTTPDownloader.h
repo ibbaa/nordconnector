@@ -6,9 +6,10 @@
 
 class AsyncHTTPDownloader {
     public:
-        std::future<std::string> download(const std::string &url);
+        static bool initSSL();
+        std::future<std::string> download(const std::string &url, bool verbose);
     private:
-        std::string async_download(const std::string &url);
+        std::string async_download(const std::string &url, bool verbose);
 };
 
 #endif /* SRC_SERVER_ASYNCHTTPDOWNLOADER_H_ */

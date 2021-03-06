@@ -1,3 +1,4 @@
+#include "common.h"
 #include "args/CommandLineParser.h"
 #include "server/AsyncHTTPDownloader.h"
 #include <iostream>
@@ -7,16 +8,37 @@
 #include <Poco/DateTimeFormatter.h>
 #include <Poco/DateTimeFormat.h>
 
+void output(const NVPNOptions &options, const std::string &message);
+
 int main(int argc, char *argv[]) {
-    Poco::Timestamp now;
-    Poco::DateTimeFormatter formatter;
-    std::string nowstr = formatter.format(now, Poco::DateTimeFormat::SORTABLE_FORMAT, Poco::Timezone::tzd());
-    std::cout << "Hello World! on " << nowstr << std::endl;
     CommandLineParser parser;
-    const NVPNOptions &options = parser.parse(argc, argv);
+    NVPNOptions options = parser.parse(argc, argv);
+    if (!options.validate()) {
+        std::cerr << options.get_validation_message();
+        return RETURN_CODES::VALIDATION_ERROR;
+    }
+    output(options, options.describe());
+    if (!AsyncHTTPDownloader::initSSL()) {
+        return RETURN_CODES::SSL_INIT_ERROR;
+    }
     AsyncHTTPDownloader downloader;
-    std::future<std::string> result = downloader.download(options.get_stat());
-    const std::string &data = result.get();
-    std::cout << data << std::endl;
-    return 0;
+    std::future<std::string> stat_result = downloader.download(options.get_stat(), options.get_verbose());
+    std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn(), options.get_verbose());
+    const std::string &stat_data = stat_result.get();
+    if (stat_data.empty()) {
+        std::cerr << "Download error\n";
+        return RETURN_CODES::DOWNLOAD_ERROR;
+    }
+    const std::string &ovpn_data = stat_ovpn.get();
+    if (ovpn_data.empty()) {
+        std::cerr << "Download error\n";
+        return RETURN_CODES::DOWNLOAD_ERROR;
+    }
+    return RETURN_CODES::OK;
+}
+
+void output(const NVPNOptions &options, const std::string &message) {
+    if (options.get_verbose()) {
+        std::cout << message;
+    }
 }
