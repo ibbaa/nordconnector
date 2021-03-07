@@ -9,9 +9,12 @@ conan_basic_setup()
 
 set(SOURCES 
 	src/nordvpncc.cpp
+	src/Main.cpp
 	src/args/NVPNOptions.cpp
 	src/args/CommandLineParser.cpp
 	src/server/AsyncHTTPDownloader.cpp
+	src/server/NVPNServer.cpp
+	src/server/ServerSelector.cpp
 )
 
 add_executable(nordvpncc ${SOURCES})
