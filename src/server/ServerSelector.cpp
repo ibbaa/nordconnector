@@ -6,14 +6,7 @@
 #include <Poco/JSON/Parser.h>
 #include <Poco/Dynamic/Var.h>
 
-NVPNServer ServerSelector::select(const std::string &data, bool server, const std::vector<std::string> &countries) {
-    if (server) {
-        if (countries.size() <= 0) {
-            std::cerr << "-s/--server provided but no server specified\n";
-            exit(RETURN_CODES::GENERAL_ERROR);
-        }
-        return NVPNServer(countries[0], 0);
-    }
+NVPNServer ServerSelector::select(const std::string &data, const std::vector<std::string> &countries) {
     Poco::JSON::Parser jsonParser;
     Poco::Dynamic::Var jsonData = jsonParser.parse(data);
     Poco::Dynamic::Var jsonResult = jsonParser.result();
@@ -21,7 +14,6 @@ NVPNServer ServerSelector::select(const std::string &data, bool server, const st
 }
 
 bool ServerSelector::valid(const std::string &data, const std::vector<std::string> &countries) {
-
     return false;
 }
 

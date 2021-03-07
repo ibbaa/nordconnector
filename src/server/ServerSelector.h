@@ -6,7 +6,7 @@
 
 class ServerSelector {
     public:
-        NVPNServer select(const std::string &data, bool server, const std::vector<std::string> &countries);
+        NVPNServer select(const std::string &data, const std::vector<std::string> &countries);
     private:
         bool valid(const std::string &data, const std::vector<std::string> &countries);
 };
