@@ -52,5 +52,10 @@ NVPNServer Main::select_server(const NVPNOptions &options) {
         exit(RETURN_CODES::DOWNLOAD_ERROR);
     }
     ServerSelector selector;
-    return selector.select(stat_data, options.get_countries());
+    NVPNServer server = selector.select(stat_data, options.get_countries());
+    if (server.get_address().empty()) {
+        std::cerr << "Error retrieving suitable server\n";
+        exit(RETURN_CODES::JSON_ERROR);
+    }
+    return server;
 }
