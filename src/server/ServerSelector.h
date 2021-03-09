@@ -1,14 +1,15 @@
 #ifndef SERVER_SERVERLISTEXTRACTOR_H_
 #define SERVER_SERVERLISTEXTRACTOR_H_
 
-#include <server/NVPNServer.h>
 #include <vector>
+#include <string>
 
 class ServerSelector {
     public:
-        NVPNServer select(const std::string &data, const std::vector<std::string> &countries);
+        std::string select(const std::string &data, const std::vector<std::string> &countries, bool verbose);
     private:
-        bool valid(const std::string &data, const std::vector<std::string> &countries);
+        bool matching_country(const std::string &server, const std::string &country);
+        bool valid(const std::string &server);
         std::vector<std::string>::const_iterator select_random(std::vector<std::string>::const_iterator start, std::vector<std::string>::const_iterator end);
 };
 

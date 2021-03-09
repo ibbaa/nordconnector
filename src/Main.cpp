@@ -20,7 +20,8 @@ int Main::main(int argc, char *argv[]) {
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn(), options.get_verbose());
-    NVPNServer server = select_server(options);
+    const std::string &server = select_server(options);
+    output(options, "Selected server: " + server + "\n");
     const std::string &ovpn_data = stat_ovpn.get();
     if (ovpn_data.empty()) {
         std::cerr << "Download error\n";
@@ -35,14 +36,14 @@ void Main::output(const NVPNOptions &options, const std::string &message) {
     }
 }
 
-NVPNServer Main::select_server(const NVPNOptions &options) {
+std::string Main::select_server(const NVPNOptions &options) {
     if (options.get_server()) {
         std::vector<std::string> countries = options.get_countries();
         if (countries.size() <= 0) {
             std::cerr << "-s/--server provided but no server specified\n";
             exit(RETURN_CODES::GENERAL_ERROR);
         }
-        return NVPNServer(countries[0], 0);
+        return countries[0];
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_result = downloader.download(options.get_stat(), options.get_verbose());
@@ -52,10 +53,10 @@ NVPNServer Main::select_server(const NVPNOptions &options) {
         exit(RETURN_CODES::DOWNLOAD_ERROR);
     }
     ServerSelector selector;
-    NVPNServer server = selector.select(stat_data, options.get_countries());
-    if (server.get_address().empty()) {
+    std::string server = selector.select(stat_data, options.get_countries(), options.get_verbose());
+    if (server.empty()) {
         std::cerr << "Error retrieving suitable server\n";
-        exit(RETURN_CODES::JSON_ERROR);
+        exit(RETURN_CODES::SELECT_ERROR);
     }
     return server;
 }

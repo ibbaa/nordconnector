@@ -13,7 +13,6 @@ set(SOURCES
 	src/args/NVPNOptions.cpp
 	src/args/CommandLineParser.cpp
 	src/server/AsyncHTTPDownloader.cpp
-	src/server/NVPNServer.cpp
 	src/server/ServerSelector.cpp
 )
 
