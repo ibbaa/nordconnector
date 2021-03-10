@@ -22,7 +22,7 @@ int Main::main(int argc, char *argv[]) {
     std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn(), options.get_verbose());
     const std::string &server = select_server(options);
     output(options, "Selected server: " + server + "\n");
-    const std::string &ovpn_data = stat_ovpn.get();
+    const std::string &ovpn_data = get_from_future(stat_ovpn);
     if (ovpn_data.empty()) {
         std::cerr << "Download error\n";
         return RETURN_CODES::DOWNLOAD_ERROR;
@@ -36,6 +36,21 @@ void Main::output(const NVPNOptions &options, const std::string &message) {
     }
 }
 
+std::string Main::get_from_future(std::future<std::string> &data) {
+    std::future_status status = std::future_status::deferred;
+    do {
+        std::future_status status = data.wait_for(std::chrono::seconds(DOWNLOAD_TIMEOUT));
+        if (status == std::future_status::timeout) {
+            std::cerr << "Timeout while waiting for the download to complete\n";
+            exit(RETURN_CODES::TIMEOUT);
+        } else if (status == std::future_status::ready) {
+            return data.get();
+        }
+
+    } while (status != std::future_status::ready && status != std::future_status::timeout);
+    return "";
+}
+
 std::string Main::select_server(const NVPNOptions &options) {
     if (options.get_server()) {
         std::vector<std::string> countries = options.get_countries();
@@ -47,7 +62,7 @@ std::string Main::select_server(const NVPNOptions &options) {
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_result = downloader.download(options.get_stat(), options.get_verbose());
-    const std::string &stat_data = stat_result.get();
+    const std::string &stat_data = get_from_future(stat_result);
     if (stat_data.empty()) {
         std::cerr << "Download error\n";
         exit(RETURN_CODES::DOWNLOAD_ERROR);

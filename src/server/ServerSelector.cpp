@@ -69,6 +69,16 @@ bool ServerSelector::valid(const std::string &server) {
     if (pos != (server.length() - 11)) {
         return false;
     }
+    int cpos = server.find(".");
+    if (cpos == std::string::npos) {
+        return false;
+    }
+    std::string cpart = server.substr(0, cpos);
+    Poco::RegularExpression expr("[a-z][a-z]\\d+");
+    Poco::RegularExpression::MatchVec mvec;
+    if (expr.match(cpart, 0, mvec)) {
+        return true;
+    }
     return true;
 }
 
