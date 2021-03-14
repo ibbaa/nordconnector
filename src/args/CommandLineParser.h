@@ -6,6 +6,9 @@
 #include <string>
 #include <vector>
 
+#define OVPN_URL_DEFAULT "https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip"
+#define STAT_URL_DEFAULT "https://nordvpn.com/api/server/stats"
+
 class CommandLineParser {
     public:
         NVPNOptions parse(int argc, char *argv[]);

@@ -1,3 +1,4 @@
+#include "common.h"
 #include "server/AsyncHTTPDownloader.h"
 #include <iostream>
 #include <memory>
@@ -23,7 +24,9 @@ bool AsyncHTTPDownloader::initSSL() {
         Poco::Net::initializeSSL();
         return true;
     } catch (Poco::Exception &exc) {
-        std::cerr << "Error initializing SSL " << exc.displayText() << std::endl;
+        Commons::err_output("Error initializing SSL " + exc.displayText() + "\n");
+    } catch (...) {
+        Commons::err_output("Error initializing SSL.\n");
     }
     return false;
 }
@@ -35,20 +38,18 @@ std::future<std::string> AsyncHTTPDownloader::download(const std::string &urlstr
 std::string AsyncHTTPDownloader::async_download(const std::string &urlstr, bool verbose) {
     std::string data;
     try {
-        if (verbose) {
-            std::cout << "Starting download from " << urlstr << std::endl;
-        }
-        Poco::Net::SSLManager::InvalidCertificateHandlerPtr ptrHandler(new Poco::Net::AcceptCertificateHandler(false));
-        Poco::Net::Context::Ptr ptrContext(new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, ""));
-        Poco::Net::SSLManager::instance().initializeClient(0, ptrHandler, ptrContext);
+        Commons::output("Starting download from " + urlstr + "\n", verbose);
+        Poco::Net::SSLManager::InvalidCertificateHandlerPtr ptr_handler(new Poco::Net::AcceptCertificateHandler(false));
+        Poco::Net::Context::Ptr ptr_context(new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, ""));
+        Poco::Net::SSLManager::instance().initializeClient(0, ptr_handler, ptr_context);
         Poco::URI uri(urlstr);
-        std::unique_ptr<std::istream> pStr(Poco::URIStreamOpener::defaultOpener().open(uri));
-        Poco::StreamCopier::copyToString(*pStr.get(), data);
-        if (verbose) {
-            std::cout << "Download from " << urlstr << " finished" << std::endl;
-        }
+        std::unique_ptr<std::istream> ptr_str(Poco::URIStreamOpener::defaultOpener().open(uri));
+        Poco::StreamCopier::copyToString(*ptr_str.get(), data);
+        Commons::output("Download from " + urlstr + " finished\n", verbose);
     } catch (Poco::Exception &exc) {
-        std::cerr << "Error downloading from " << urlstr << ": " << exc.displayText() << std::endl;
+        Commons::err_output("Error downloading from " + urlstr + ": " + exc.displayText() + "\n");
+    } catch (...) {
+        Commons::err_output("Error downloading from " + urlstr + "\n");
     }
     return data;
 }

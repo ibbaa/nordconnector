@@ -11,14 +11,14 @@
 
 std::string ServerSelector::select(const std::string &data, const std::vector<std::string> &countries, bool verbose) {
     try {
-        Poco::JSON::Parser jsonParser;
-        Poco::Dynamic::Var jsonData = jsonParser.parse(data);
-        Poco::Dynamic::Var jsonResult = jsonParser.result();
-        Poco::JSON::Object::Ptr jsonServers = jsonResult.extract<Poco::JSON::Object::Ptr>();
+        Poco::JSON::Parser json_parser;
+        Poco::Dynamic::Var json_data = json_parser.parse(data);
+        Poco::Dynamic::Var json_result = json_parser.result();
+        Poco::JSON::Object::Ptr json_servers = json_result.extract<Poco::JSON::Object::Ptr>();
         std::string country;
         if (countries.empty()) {
             std::vector<std::string> all_countries;
-            for (Poco::JSON::Object::Iterator itr = jsonServers->begin(); itr != jsonServers->end(); ++itr) {
+            for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
                 std::string server = itr->first;
                 if (valid(server)) {
                     all_countries.push_back(server.substr(0, 2));
@@ -31,15 +31,13 @@ std::string ServerSelector::select(const std::string &data, const std::vector<st
             country = *country_iter;
         }
         if (country.empty()) {
-            std::cerr << "Unable to select suitable country\n";
+            Commons::err_output("Unable to select suitable country\n");
             return "";
         }
-        if (verbose) {
-            std::cout << "Selected country: " << country << std::endl;
-        }
+        Commons::output("Selected country: " + country + "\n", verbose);
         int min = 100;
         std::string sel_server;
-        for (Poco::JSON::Object::Iterator itr = jsonServers->begin(); itr != jsonServers->end(); ++itr) {
+        for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
             std::string server = itr->first;
             if (valid(server) && matching_country(server, country)) {
                 Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
@@ -55,7 +53,9 @@ std::string ServerSelector::select(const std::string &data, const std::vector<st
         }
         return sel_server;
     } catch (Poco::Exception &exc) {
-        std::cerr << "Error parsing server data: " << exc.displayText() << std::endl;
+        Commons::err_output("Error parsing server data: " + exc.displayText() + "\n");
+    } catch (...) {
+        Commons::err_output("Error parsing server data.\n");
     }
     return "";
 }

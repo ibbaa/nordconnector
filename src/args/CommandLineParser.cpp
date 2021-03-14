@@ -2,9 +2,6 @@
 #include "args/CommandLineParser.h"
 #include <stdlib.h>
 
-#define OVPN_URL_DEFAULT "https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip"
-#define STAT_URL_DEFAULT "https://nordvpn.com/api/server/stats"
-
 NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
     cxxopts::Options options(argv[0], "Alternative NORDVPN connection tool");
     options.add_options()("s,server", "connect to a specific server by name, otherwise the server is chosen based on a list of countries", cxxopts::value<bool>()->default_value("false"))("h,help",
@@ -16,12 +13,15 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
     try {
         cxxopts::ParseResult result = options.parse(argc, argv);
         if (result.count("help")) {
-            std::cout << options.help() << std::endl;
+            Commons::output(options.help(), true);
             exit(RETURN_CODES::OK);
         }
         return NVPNOptions(get_server(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_verbose(result));
     } catch (const cxxopts::OptionException &exc) {
-        std::cerr << "Command line option error: " << exc.what() << std::endl;
+        Commons::err_output("Command line option error: " + std::string(exc.what()) + "\n");
+        exit(RETURN_CODES::PARSE_ERROR);
+    } catch (...) {
+        Commons::err_output("Command line option error.\n");
         exit(RETURN_CODES::PARSE_ERROR);
     }
 }
