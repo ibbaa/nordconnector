@@ -7,7 +7,7 @@
 #include <vector>
 
 #define OVPN_URL_DEFAULT "https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip"
-#define STAT_URL_DEFAULT "https://nordvpn.com/api/server/stats"
+#define STAT_URL_DEFAULT "https://api.nordvpn.com/server/stats"
 
 class CommandLineParser {
     public:
