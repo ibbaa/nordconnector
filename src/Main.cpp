@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <Poco/Path.h>
 
 int Main::main(int argc, char *argv[]) {
     CommandLineParser parser;
@@ -29,7 +30,7 @@ int Main::main(int argc, char *argv[]) {
         return RETURN_CODES::DOWNLOAD_ERROR;
     }
     OVPNConfigReader reader;
-    const std::string &ovpn_config = reader.extract_config(ovpn_data, server, "/tmp", options.get_verbose());
+    const std::string &ovpn_config = reader.extract_config(ovpn_data, server, Poco::Path::temp(), options.get_verbose());
     if (ovpn_config.empty()) {
         Commons::err_output("Error retrieving openvpn configuration\n");
         return RETURN_CODES::OVPN_CONFOG_ERROR;

@@ -22,11 +22,7 @@ std::string OVPNConfigReader::extract_config(const std::string &config, const st
             }
         }
         config_str.clear();
-        const std::string &tmpdir_path = create_tmp_dir(dir);
-        if (tmpdir_path.empty()) {
-            Commons::err_output("Error creating tmp path\n");
-            return "";
-        }
+        const Poco::Path &tmpdir_path = create_tmp_dir(dir);
         std::ofstream configf_str;
         std::string config_filename = get_config_file(tmpdir_path, server, is_upd);
         configf_str.open(config_filename, std::ios::out | std::ios::trunc);
@@ -47,21 +43,18 @@ std::string OVPNConfigReader::extract_config(const std::string &config, const st
     return "";
 }
 
-std::string OVPNConfigReader::create_tmp_dir(const std::string &dir) {
-    std::string tmpdir_path = dir + "/" + NORDVPNCC_DIR;
+Poco::Path OVPNConfigReader::create_tmp_dir(const std::string &dir) {
+    Poco::Path tmpdir_path = Poco::Path(dir).append(NORDVPNCC_DIR);
     Poco::File tmp_dir(tmpdir_path);
     tmp_dir.createDirectories();
-    if (!tmp_dir.exists()) {
-        return "";
-    }
     return tmpdir_path;
 }
 
-std::string OVPNConfigReader::get_config_file(const std::string &dir, const std::string &server, bool is_udp) {
+std::string OVPNConfigReader::get_config_file(Poco::Path dir, const std::string &server, bool is_udp) {
     if (is_udp) {
-        return dir + "/" + server + "." + OVPN_UDP_SUFFIX;
+        return dir.append(server + "." + OVPN_UDP_SUFFIX).absolute().toString();
     }
-    return dir + "/" + server + "." + OVPN_TCP_SUFFIX;
+    return dir.append(server + "." + OVPN_TCP_SUFFIX).absolute().toString();
 }
 
 void OVPNConfigReader::close(std::ofstream &str, const std::string &filename) {

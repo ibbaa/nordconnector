@@ -1,6 +1,7 @@
 #ifndef SRC_OVPN_OVPNCONFIGREADER_H_
 #define SRC_OVPN_OVPNCONFIGREADER_H_
 
+#include <Poco/Path.h>
 #include <string>
 
 #define OVPN_UDP_ZIP_FOLDER "ovpn_udp"
@@ -13,8 +14,8 @@ class OVPNConfigReader {
     public:
         std::string extract_config(const std::string &config, const std::string &server, const std::string &dir, bool verbose);
     private:
-        std::string create_tmp_dir(const std::string &dir);
-        std::string get_config_file(const std::string &dir, const std::string &server, bool is_udp);
+        Poco::Path create_tmp_dir(const std::string &dir);
+        std::string get_config_file(Poco::Path dir, const std::string &server, bool is_udp);
         void close(std::ofstream &str, const std::string &filename);
 };
 
