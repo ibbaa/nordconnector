@@ -1,10 +1,10 @@
 #ifndef SERVER_SERVERLISTEXTRACTOR_H_
 #define SERVER_SERVERLISTEXTRACTOR_H_
 
-#include <Poco/Foundation.h>
-#include <Poco/RegularExpression.h>
 #include <vector>
 #include <string>
+#include "Poco/Foundation.h"
+#include "Poco/RegularExpression.h"
 
 class ServerSelector {
     public:

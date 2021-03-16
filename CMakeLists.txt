@@ -14,7 +14,9 @@ set(SOURCES
 	src/args/CommandLineParser.cpp
 	src/server/AsyncHTTPDownloader.cpp
 	src/server/ServerSelector.cpp
+	src/ovpn/CredentialsHelper.cpp
 	src/ovpn/OVPNConfigReader.cpp
+	src/util/Output.cpp
 )
 
 add_executable(nordvpncc ${SOURCES})

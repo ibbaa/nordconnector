@@ -1,13 +1,14 @@
 #include "common.h"
-#include <server/ServerSelector.h>
+#include "server/ServerSelector.h"
+#include "util/Output.h"
 #include <stdlib.h>
 #include <iostream>
 #include <random>
 #include <iterator>
-#include <Poco/JSON/Array.h>
-#include <Poco/JSON/JSON.h>
-#include <Poco/JSON/Parser.h>
-#include <Poco/Dynamic/Var.h>
+#include "Poco/JSON/Array.h"
+#include "Poco/JSON/JSON.h"
+#include "Poco/JSON/Parser.h"
+#include "Poco/Dynamic/Var.h"
 
 std::string ServerSelector::select(const std::string &data, const std::vector<std::string> &countries, bool verbose) {
     try {
@@ -31,10 +32,10 @@ std::string ServerSelector::select(const std::string &data, const std::vector<st
             country = *country_iter;
         }
         if (country.empty()) {
-            Commons::err_output("Unable to select suitable country\n");
+            Output::err_output("Unable to select suitable country\n");
             return "";
         }
-        Commons::output("Selected country: " + country + "\n", verbose);
+        Output::output("Selected country: " + country + "\n", verbose);
         int min = 100;
         std::string sel_server;
         for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
@@ -53,9 +54,9 @@ std::string ServerSelector::select(const std::string &data, const std::vector<st
         }
         return sel_server;
     } catch (Poco::Exception &exc) {
-        Commons::err_output("Error parsing server data: " + exc.displayText() + "\n");
+        Output::err_output("Error parsing server data: " + exc.displayText() + "\n");
     } catch (...) {
-        Commons::err_output("Error parsing server data.\n");
+        Output::err_output("Error parsing server data.\n");
     }
     return "";
 }

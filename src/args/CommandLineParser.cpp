@@ -1,5 +1,6 @@
 #include "common.h"
 #include "args/CommandLineParser.h"
+#include "util/Output.h"
 #include <stdlib.h>
 
 NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
@@ -13,15 +14,15 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
     try {
         cxxopts::ParseResult result = options.parse(argc, argv);
         if (result.count("help")) {
-            Commons::output(options.help(), true);
+            Output::output(options.help(), true);
             exit(RETURN_CODES::OK);
         }
         return NVPNOptions(get_server(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_verbose(result));
     } catch (const cxxopts::OptionException &exc) {
-        Commons::err_output("Command line option error: " + std::string(exc.what()) + "\n");
+        Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
         exit(RETURN_CODES::PARSE_ERROR);
     } catch (...) {
-        Commons::err_output("Command line option error.\n");
+        Output::err_output("Command line option error.\n");
         exit(RETURN_CODES::PARSE_ERROR);
     }
 }
