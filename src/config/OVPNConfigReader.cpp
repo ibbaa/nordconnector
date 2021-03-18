@@ -1,5 +1,5 @@
+#include <config/OVPNConfigReader.h>
 #include "common.h"
-#include "ovpn/OVPNConfigReader.h"
 #include "util/Output.h"
 #include <iostream>
 #include <fstream>

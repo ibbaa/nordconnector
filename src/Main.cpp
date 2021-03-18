@@ -1,10 +1,10 @@
 #include "common.h"
 #include "Main.h"
 #include "args/CommandLineParser.h"
+#include "config/CredentialsHelper.h"
+#include "config/OVPNConfigReader.h"
 #include "server/AsyncHTTPDownloader.h"
 #include "server/ServerSelector.h"
-#include "ovpn/OVPNConfigReader.h"
-#include "ovpn/CredentialsHelper.h"
 #include "util/Output.h"
 #include <stdlib.h>
 #include <iostream>

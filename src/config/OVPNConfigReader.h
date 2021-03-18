@@ -1,5 +1,5 @@
-#ifndef SRC_OVPN_OVPNCONFIGREADER_H_
-#define SRC_OVPN_OVPNCONFIGREADER_H_
+#ifndef SRC_CONFIG_OVPNCONFIGREADER_H_
+#define SRC_CONFIG_OVPNCONFIGREADER_H_
 
 #include <string>
 #include "Poco/Path.h"
@@ -18,4 +18,4 @@ class OVPNConfigReader {
         void close(std::ofstream &str, const std::string &filename);
 };
 
-#endif /* SRC_OVPN_OVPNCONFIGREADER_H_ */
+#endif /* SRC_CONFIG_OVPNCONFIGREADER_H_ */

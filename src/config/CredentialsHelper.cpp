@@ -1,4 +1,4 @@
-#include "ovpn/CredentialsHelper.h"
+#include <config/CredentialsHelper.h>
 #include "util/Output.h"
 #include <fstream>
 #include "Poco/Exception.h"

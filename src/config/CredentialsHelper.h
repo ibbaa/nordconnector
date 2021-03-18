@@ -1,5 +1,5 @@
-#ifndef SRC_OVPN_CREDENTIALSHELPER_H_
-#define SRC_OVPN_CREDENTIALSHELPER_H_
+#ifndef SRC_CONFIG_CREDENTIALSHELPER_H_
+#define SRC_CONFIG_CREDENTIALSHELPER_H_
 
 #include <string>
 #include "Poco/Path.h"
@@ -14,4 +14,4 @@ class CredentialsHelper {
         void close(std::ofstream &str, const std::string &filename);
 };
 
-#endif /* SRC_OVPN_CREDENTIALSHELPER_H_ */
+#endif /* SRC_CONFIG_CREDENTIALSHELPER_H_ */

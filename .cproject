@@ -63,7 +63,7 @@
 					<folderInfo id="de.marw.cmake.cdt.lsp.config.cmake.1047888388." name="/" resourcePath="">
 						<toolChain id="de.marw.cmake.cdt.lsp.config.cmake.toolChain.1419482862" name="CMake driven" superClass="de.marw.cmake.cdt.lsp.config.cmake.toolChain">
 							<targetPlatform id="de.marw.cmake.cdt.lsp.targetPlatform.cmake.1678002176" name="Any Platform" superClass="de.marw.cmake.cdt.lsp.targetPlatform.cmake"/>
-							<builder buildPath="/nordvpncc/build/Default" id="de.marw.cmake.cdt.lsp.builder.portable.273469861" managedBuildOn="true" name="CMake Builder.Default" superClass="de.marw.cmake.cdt.lsp.builder.portable"/>
+							<builder buildPath="/nordvpncc/build/Default" id="de.marw.cmake.cdt.lsp.builder.portable.273469861" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CMake Builder" superClass="de.marw.cmake.cdt.lsp.builder.portable"/>
 							<tool id="de.marw.cmake.cdt.lsp.toolchain.tool.dummy.1796645432" name="CMake driven Languages Proxy" superClass="de.marw.cmake.cdt.lsp.toolchain.tool.dummy">
 								<inputType id="de.marw.cmake.cdt.lsp.inputType.c.592887775" superClass="de.marw.cmake.cdt.lsp.inputType.c"/>
 								<inputType id="de.marw.cmake.cdt.lsp.inputType.cpp.1262060931" superClass="de.marw.cmake.cdt.lsp.inputType.cpp"/>
@@ -103,7 +103,7 @@
 					<folderInfo id="de.marw.cmake.cdt.lsp.config.release.1305889792." name="/" resourcePath="">
 						<toolChain id="de.marw.cmake.cdt.lsp.config.release.toolChain.1303784650" name="CMake driven" superClass="de.marw.cmake.cdt.lsp.config.release.toolChain">
 							<targetPlatform id="de.marw.cmake.cdt.lsp.targetPlatform.cmake.451046956" name="Any Platform" superClass="de.marw.cmake.cdt.lsp.targetPlatform.cmake"/>
-							<builder buildPath="/nordvpncc/build/Release" id="de.marw.cmake.cdt.lsp.builder.portable.1788259859" managedBuildOn="true" name="CMake Builder.Release" superClass="de.marw.cmake.cdt.lsp.builder.portable"/>
+							<builder buildPath="/nordvpncc/build/Release" id="de.marw.cmake.cdt.lsp.builder.portable.1788259859" keepEnvironmentInBuildfile="false" managedBuildOn="true" name="CMake Builder" superClass="de.marw.cmake.cdt.lsp.builder.portable"/>
 							<tool id="de.marw.cmake.cdt.lsp.toolchain.tool.dummy.1493424949" name="CMake driven Languages Proxy" superClass="de.marw.cmake.cdt.lsp.toolchain.tool.dummy">
 								<inputType id="de.marw.cmake.cdt.lsp.inputType.c.475796906" superClass="de.marw.cmake.cdt.lsp.inputType.c"/>
 								<inputType id="de.marw.cmake.cdt.lsp.inputType.cpp.217493137" superClass="de.marw.cmake.cdt.lsp.inputType.cpp"/>
