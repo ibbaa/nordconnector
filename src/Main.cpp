@@ -45,6 +45,7 @@ int Main::main(int argc, char *argv[]) {
         return RETURN_CODES::OVPN_CONFIG_ERROR;
     }
     std::string ovpncmd = "openvpn --config " + ovpn_config + " --auth-user-pass " + ovpn_cred;
+    Output::output(ovpncmd + "\n", options.get_verbose());
     int ovpnresult = system(ovpncmd.c_str());
     Output::output("openvpn result code: " + std::to_string(ovpnresult) + "\n", options.get_verbose());
     Output::delete_file(ovpn_config);
