@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
+#include <stdlib.h>
 #include "Poco/Path.h"
 
 int Main::main(int argc, char *argv[]) {
@@ -39,6 +40,15 @@ int Main::main(int argc, char *argv[]) {
     }
     CredentialsHelper cred_helper;
     const std::string &ovpn_cred = cred_helper.provide_ovpn_credentials(server, options.get_user(), options.get_password(), options.get_verbose());
+    if (ovpn_cred.empty()) {
+        Output::err_output("Error providing ovpn credentials\n");
+        return RETURN_CODES::OVPN_CONFIG_ERROR;
+    }
+    std::string ovpncmd = "openvpn --config " + ovpn_config + " --auth-user-pass " + ovpn_cred;
+    int ovpnresult = system(ovpncmd.c_str());
+    Output::output("openvpn result code: " + std::to_string(ovpnresult) + "\n", options.get_verbose());
+    Output::delete_file(ovpn_config);
+    Output::delete_file(ovpn_cred);
     return RETURN_CODES::OK;
 }
 

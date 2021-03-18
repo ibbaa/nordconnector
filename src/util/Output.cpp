@@ -4,6 +4,7 @@
 #include "Poco/DateTimeFormat.h"
 #include "Poco/DateTimeFormatter.h"
 #include "Poco/File.h"
+#include "Poco/Exception.h"
 
 void Output::output(const std::string &message, bool verbose) {
     if (verbose) {
@@ -25,4 +26,17 @@ Poco::Path Output::create_tmp_dir() {
     Poco::File tmp_dir(tmpdir_path);
     tmp_dir.createDirectories();
     return tmpdir_path;
+}
+
+void Output::delete_file(const std::string &filename) {
+    try {
+        Poco::File file(filename);
+        if (file.exists()) {
+            file.remove();
+        }
+    } catch (Poco::Exception &exc) {
+        Output::err_output("Error deleting file: " + filename + " " + exc.displayText() + "\n");
+    } catch (...) {
+        Output::err_output("Error deleting file: " + filename + "\n");
+    }
 }

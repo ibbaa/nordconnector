@@ -13,6 +13,8 @@ std::string CredentialsHelper::provide_ovpn_credentials(const std::string &serve
             Output::err_output("Error opening file for openvpn credentials " + cred_filename + "\n");
             return "";
         }
+        credf_str << username << std::endl << password << std::endl;
+        close(credf_str, cred_filename);
         Output::output("openvpn credentials file: " + cred_filename + "\n", verbose);
         return cred_filename;
     } catch (Poco::Exception &exc) {
@@ -25,5 +27,16 @@ std::string CredentialsHelper::provide_ovpn_credentials(const std::string &serve
 
 std::string CredentialsHelper::get_cred_file(Poco::Path dir, const std::string &server) {
     return dir.append(server + "." + CRED_FILE_NAME + "_" + Output::timestamp()).absolute().toString();
+}
+
+void CredentialsHelper::close(std::ofstream &str, const std::string &filename) {
+    try {
+        if (str.is_open()) {
+            str.flush();
+            str.close();
+        }
+    } catch (...) {
+        Output::err_output("Error closing file for openvpn credentials: " + filename + "\n");
+    }
 }
 

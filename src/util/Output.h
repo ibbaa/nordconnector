@@ -12,6 +12,7 @@ class Output {
         static void err_output(const std::string &message);
         static std::string timestamp();
         static Poco::Path create_tmp_dir();
+        static void delete_file(const std::string &filename);
 };
 
 #endif /* SRC_UTIL_OUTPUT_H_ */

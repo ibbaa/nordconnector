@@ -11,6 +11,7 @@ class CredentialsHelper {
         std::string provide_ovpn_credentials(const std::string &server, const std::string &username, const std::string &password, bool verbose);
     private:
         std::string get_cred_file(Poco::Path dir, const std::string &server);
+        void close(std::ofstream &str, const std::string &filename);
 };
 
 #endif /* SRC_OVPN_CREDENTIALSHELPER_H_ */
