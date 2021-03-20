@@ -23,4 +23,5 @@ set(SOURCES
 )
 
 add_executable(nordvpncc ${SOURCES})
-target_link_libraries(nordvpncc ${CONAN_LIBS})
+target_include_directories(nordvpncc PUBLIC include PRIVATE src)
+target_link_libraries(nordvpncc ${CONAN_LIBS
