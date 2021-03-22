@@ -1,8 +1,9 @@
 #include "args/NVPNOptions.h"
 #include <iostream>
 
-NVPNOptions::NVPNOptions(bool server, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword, bool verbose) : m_server(
-        server), m_countries(countries), m_ovpn(ovpn), m_stat(stat), m_user(user), m_password(passsword), m_verbose(verbose), m_message("") {
+NVPNOptions::NVPNOptions(bool server, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
+        const std::string &passthrough, bool verbose) : m_server(server), m_countries(countries), m_ovpn(ovpn), m_stat(stat), m_user(user), m_password(passsword), m_passthrough(passthrough), m_verbose(
+        verbose), m_message("") {
 }
 
 bool NVPNOptions::get_server() const {
@@ -27,6 +28,10 @@ std::string NVPNOptions::get_user() const {
 
 std::string NVPNOptions::get_password() const {
     return m_password;
+}
+
+std::string NVPNOptions::get_passthrough() const {
+    return m_passthrough;
 }
 
 std::string NVPNOptions::get_validation_message() const {

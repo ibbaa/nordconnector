@@ -1,4 +1,3 @@
-#include "common.h"
 #include "server/ServerSelector.h"
 #include "util/Output.h"
 #include <stdlib.h>

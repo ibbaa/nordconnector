@@ -7,8 +7,9 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
     cxxopts::Options options(argv[0], "Alternative NORDVPN connection tool");
     options.add_options()("s,server", "connect to a specific server by name, otherwise the server is chosen based on a list of countries", cxxopts::value<bool>()->default_value("false"))("h,help",
             "Print help")("o,ovpn", "Url to retrieve openvpn server configuration", cxxopts::value<std::string>()->default_value(OVPN_URL_DEFAULT))("a,stat", "Url to retrieve server statistics",
-            cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user", "User", cxxopts::value<std::string>())("p,password", "Password", cxxopts::value<std::string>())("v,verbose",
-            "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "", cxxopts::value<std::vector<std::string>>());
+            cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user", "User", cxxopts::value<std::string>())("p,password", "Password", cxxopts::value<std::string>())("t,passthrough",
+            "command line options directly passed to openvpn", cxxopts::value<std::string>())("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "",
+            cxxopts::value<std::vector<std::string>>());
     options.parse_positional("countries");
     options.positional_help("list of countries to connect (separated by blank), if -s is provided a specific server by name");
     try {
@@ -17,7 +18,7 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
             Output::output(options.help(), true);
             exit(RETURN_CODES::OK);
         }
-        return NVPNOptions(get_server(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_verbose(result));
+        return NVPNOptions(get_server(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result), get_verbose(result));
     } catch (const cxxopts::OptionException &exc) {
         Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
         exit(RETURN_CODES::PARSE_ERROR);
@@ -66,6 +67,13 @@ std::string CommandLineParser::get_user(const cxxopts::ParseResult &result) cons
 std::string CommandLineParser::get_password(const cxxopts::ParseResult &result) const {
     if (result.count("password")) {
         return result["password"].as<std::string>();
+    }
+    return "";
+}
+
+std::string CommandLineParser::get_passthrough(const cxxopts::ParseResult &result) const {
+    if (result.count("passthrough")) {
+        return result["passthrough"].as<std::string>();
     }
     return "";
 }

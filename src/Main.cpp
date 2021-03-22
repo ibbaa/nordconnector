@@ -5,6 +5,7 @@
 #include "config/OVPNConfigReader.h"
 #include "server/AsyncHTTPDownloader.h"
 #include "server/ServerSelector.h"
+#include "ovpn/OVPNConnector.h"
 #include "util/Output.h"
 #include <stdlib.h>
 #include <iostream>
@@ -44,10 +45,8 @@ int Main::main(int argc, char *argv[]) {
         Output::err_output("Error providing ovpn credentials\n");
         return RETURN_CODES::OVPN_CONFIG_ERROR;
     }
-    std::string ovpncmd = "openvpn --config " + ovpn_config + " --auth-user-pass " + ovpn_cred;
-    Output::output(ovpncmd + "\n", options.get_verbose());
-    int ovpnresult = system(ovpncmd.c_str());
-    Output::output("openvpn result code: " + std::to_string(ovpnresult) + "\n", options.get_verbose());
+    OVPNConnector connector;
+    connector.connect(ovpn_config, ovpn_cred, options.get_passthrough(), options.get_verbose());
     Output::delete_file(ovpn_config);
     Output::delete_file(ovpn_cred);
     return RETURN_CODES::OK;

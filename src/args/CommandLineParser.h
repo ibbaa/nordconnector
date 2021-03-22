@@ -19,6 +19,7 @@ class CommandLineParser {
         std::string get_stat(const cxxopts::ParseResult &result) const;
         std::string get_user(const cxxopts::ParseResult &result) const;
         std::string get_password(const cxxopts::ParseResult &result) const;
+        std::string get_passthrough(const cxxopts::ParseResult &result) const;
         bool get_verbose(const cxxopts::ParseResult &result) const;
 };
 

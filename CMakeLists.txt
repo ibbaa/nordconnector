@@ -16,6 +16,7 @@ set(SOURCES
 	src/server/ServerSelector.cpp
 	src/config/CredentialsHelper.cpp
 	src/config/OVPNConfigReader.cpp
+	src/ovpn/OVPNConnector.cpp
 	src/util/Output.cpp
 )
 
