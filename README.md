@@ -1,6 +1,6 @@
 # nordvpncc
 
-An easy to use to use tool to connect to NordVPN services for Linux. It's a single C++ binary and does not require any additional setup except that OpenVPM must be installed. The feature set is very limited. The tool does not modify any network or system settings. This means it does not change DNS servers nor does it disable IPv6 for leakage prevention unless you set it manually or provide scripts for OpenVPN. NordVPN configuration files are downloaded and kept in memory. The OpenVPN configuration file for the selected server and the credentials file are written to `/tmp/nordvpncc` and are deleted when the connection drops.
+An easy to use to use tool to connect to NordVPN services for Linux. It's a single C++ binary and does not require any additional setup except that OpenVPN must be installed. The feature set is very limited. The tool does not modify any network or system settings. This means it does not change DNS servers nor does it disable IPv6 for leakage prevention unless you set it manually or provide scripts for OpenVPN. NordVPN configuration files are downloaded and kept in memory. The OpenVPN configuration file for the selected server and the credentials file are written to `/tmp/nordvpncc` and are deleted when the connection drops.
 
 ## Usage
 
