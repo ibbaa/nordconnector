@@ -7,6 +7,7 @@
 class NVPNOptions {
     private:
         bool m_server;
+        bool m_daemon;
         std::vector<std::string> m_countries;
         std::string m_ovpn;
         std::string m_stat;
@@ -16,9 +17,10 @@ class NVPNOptions {
         bool m_verbose;
         std::string m_message;
     public:
-        NVPNOptions(bool server, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
+        NVPNOptions(bool server, bool dameon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
                 const std::string &passthrough, bool verbose);
         bool get_server() const;
+        bool get_daemon() const;
         std::vector<std::string> get_countries() const;
         std::string get_ovpn() const;
         std::string get_stat() const;

@@ -51,7 +51,7 @@ int Main::main(int argc, char *argv[]) {
         return RETURN_CODES::OVPN_CONFIG_ERROR;
     }
     OVPNConnector connector;
-    connector.connect(ovpn_config, ovpn_cred, options.get_passthrough(), options.get_verbose());
+    connector.connect(ovpn_config, ovpn_cred, options.get_daemon(), options.get_passthrough(), options.get_verbose());
     Output::delete_file(ovpn_config);
     Output::delete_file(ovpn_cred);
     return RETURN_CODES::OK;
