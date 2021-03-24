@@ -48,6 +48,7 @@ int Main::main(int argc, char *argv[]) {
     const std::string &ovpn_cred = cred_helper.provide_ovpn_credentials(server, options.get_user(), options.get_password(), options.get_verbose());
     if (ovpn_cred.empty()) {
         Output::err_output("Error providing ovpn credentials\n");
+        Output::delete_file(ovpn_config);
         return RETURN_CODES::OVPN_CONFIG_ERROR;
     }
     OVPNConnector connector;

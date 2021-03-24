@@ -49,6 +49,10 @@ bool NVPNOptions::get_verbose() const {
 bool NVPNOptions::validate() {
     m_message = "";
     bool valid = true;
+    if (m_user.empty() || m_password.empty()) {
+        valid = false;
+        m_message += "-u/--user and -p/--password must be provided\n";
+    }
     if (m_server && m_countries.empty()) {
         valid = false;
         m_message += "With -s/--server a server name must be provided.\n";
