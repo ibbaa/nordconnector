@@ -11,6 +11,7 @@
 #include <iostream>
 #include <string>
 #include <stdlib.h>
+#include <unistd.h>
 #include "Poco/Path.h"
 
 int Main::main(int argc, char *argv[]) {
@@ -19,6 +20,10 @@ int Main::main(int argc, char *argv[]) {
     if (!options.validate()) {
         Output::err_output(options.get_validation_message());
         return RETURN_CODES::VALIDATION_ERROR;
+    }
+    if (!is_root()) {
+        Output::err_output("Superuser privileges are required. Please use sudo to run this program.\n");
+        return RETURN_CODES::PRIVILEGES_ERROR;
     }
     Output::output(options.describe(), options.get_verbose());
     if (!AsyncHTTPDownloader::initSSL()) {
@@ -50,6 +55,10 @@ int Main::main(int argc, char *argv[]) {
     Output::delete_file(ovpn_config);
     Output::delete_file(ovpn_cred);
     return RETURN_CODES::OK;
+}
+
+bool Main::is_root() {
+    return geteuid() == 0;
 }
 
 std::string Main::get_from_future(std::future<std::string> &data) {

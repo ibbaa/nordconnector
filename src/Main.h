@@ -8,6 +8,7 @@ class Main {
     public:
         int main(int argc, char *argv[]);
     private:
+        bool is_root();
         std::string get_from_future(std::future<std::string> &data);
         std::string select_server(const NVPNOptions &options);
 };
