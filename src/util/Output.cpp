@@ -22,7 +22,7 @@ std::string Output::timestamp() {
 }
 
 Poco::Path Output::create_tmp_dir() {
-    Poco::Path tmpdir_path = Poco::Path(Poco::Path::temp()).append(NORDVPNCC_DIR);
+    Poco::Path tmpdir_path = Poco::Path(Poco::Path::temp()).append(NORDCONNECTOR_DIR);
     Poco::File tmp_dir(tmpdir_path);
     tmp_dir.createDirectories();
     return tmpdir_path;

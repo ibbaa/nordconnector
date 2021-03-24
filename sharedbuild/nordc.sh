@@ -5,4 +5,4 @@ else
   LD_LIBRARY_PATH=../lib
 fi
 export LD_LIBRARY_PATH
-exec nordvpncc "$@"
+exec nordc "$@"

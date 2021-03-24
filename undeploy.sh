@@ -1,2 +1,2 @@
 #!/bin/sh
-rm -f /usr/local/bin/nordvpncc
+rm -f /usr/local/bin/nordc

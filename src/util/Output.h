@@ -4,7 +4,7 @@
 #include <string>
 #include "Poco/Path.h"
 
-#define NORDVPNCC_DIR "nordvpncc"
+#define NORDCONNECTOR_DIR "nordc"
 
 class Output {
     public:

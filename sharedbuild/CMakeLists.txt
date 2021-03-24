@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project (nordvpncc)
+project (nordc)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -11,7 +11,7 @@ set(CMAKE_INSTALL_RPATH "$ORIGIN/../lib")
 set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 
 set(SOURCES 
-    src/nordvpncc.cpp
+    src/nordc.cpp
 	src/Main.cpp
 	src/args/NVPNOptions.cpp
 	src/args/CommandLineParser.cpp
@@ -22,6 +22,6 @@ set(SOURCES
 	src/util/Output.cpp
 )
 
-add_executable(nordvpncc ${SOURCES})
-target_include_directories(nordvpncc PUBLIC include PRIVATE src)
-target_link_libraries(nordvpncc ${CONAN_LIBS
+add_executable(nordc ${SOURCES})
+target_include_directories(nordc PUBLIC include PRIVATE src)
+target_link_libraries(nordc ${CONAN_LIBS

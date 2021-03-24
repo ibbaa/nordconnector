@@ -1,2 +1,2 @@
 #!/bin/sh
-cp -f build/Release/bin/nordvpncc /usr/local/bin
+cp -f build/Release/bin/nordc /usr/local/bin

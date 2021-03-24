@@ -9,5 +9,5 @@ cmake --build build/Debug
 cmake --build build/Release
 cp -r build/conan/lib build/Debug
 cp -r build/conan/lib build/Release
-cp nordvpncc.sh build/Debug/bin
-cp nordvpncc.sh build/Release/bin
+cp nordc.sh build/Debug/bin
+cp nordc.sh build/Release/bin
