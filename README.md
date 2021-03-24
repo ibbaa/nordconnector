@@ -32,7 +32,7 @@ Normally `nordc` starts `openvpn` and waits for its termination in the foregroun
 
 `sudo nordc -v -d -u user -p password de`
 
-`nordc` will terminate immediately iafter starting `openvpn`. The `openvpn` process must be killed to drop the connection:
+`nordc` will terminate immediately after starting `openvpn`. The `openvpn` process must be killed to drop the connection:
 
 `killall --wait --verbose --signal SIGINT openvpn`
 
