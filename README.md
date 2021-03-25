@@ -39,3 +39,38 @@ Normally `nordc` starts `openvpn` and waits for its termination in the foregroun
 ## Passthrough
 
 `openvpn` is called with the command line options `--config`, `--auth-user-pass` and `--daemon` in daemon mode. `nordc` passes all options directly to `openvpn` specified with `-t` (or `--passthrough`):
+
+`sudo nordc -v -u user -p password -t '--ping 5' de`
+
+adds `--ping 5` to the `openvpn` call options.
+
+This can be used to provide scripts for changing DNS settings when the connection goes up and down with the `openvpn` `--up` and `--down` options:
+
+`sudo nordc -v -u user -p password -t '--script-security 2 --up ./myupscript.sh --down ./mydownscript.sh' de`
+
+`--script-security 2` is necessary for `openvpn` to execute user scripts. No scripts are provided by the nordconnector project at the moment, however.
+
+## Options
+
+`nordc --help` prints all available options:
+
+```
+Alternative NordVPN connection tool
+Usage:
+  nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
+
+  -s, --server           connect to a specific server by name, otherwise the
+                         server is chosen based on a list of countries
+  -d, --daemon           run openvpn in daemon mode
+  -h, --help             Print help
+  -o, --ovpn arg         Url to retrieve openvpn server configuration
+                         (default:
+                         https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip)
+  -a, --stat arg         Url to retrieve server statistics (default:
+                         https://api.nordvpn.com/server/stats)
+  -u, --user arg         User
+  -p, --password arg     Password
+  -t, --passthrough arg  command line options directly passed to openvpn
+  -v, --verbose          Verbose output
+```
+
