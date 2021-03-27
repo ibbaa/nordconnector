@@ -10,7 +10,7 @@ Copy the binary file anywhere you want, e.g. `/usr/local/bin`. The tool does req
 
 `sudo nordc -v -u user -p password`
 
-randomly chooses a country and connects to the server meeting the load requirements. It will take a few seconds because the configuration files are downloaded. `-v` gives verbose output and may be ommitted.
+randomly chooses a country and connects to a server meeting the load requirements. It will take a few seconds because the configuration files are downloaded. `-v` gives verbose output and may be ommitted.
 
 It is probably better to provide a country to connect:
 
