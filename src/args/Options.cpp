@@ -1,60 +1,61 @@
-#include "args/NVPNOptions.h"
+#include <args/Options.h>
 #include <iostream>
+#include "Poco/RegularExpression.h"
 
-NVPNOptions::NVPNOptions(bool server, bool daemon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
+Options::Options(bool server, bool daemon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
         const std::string &passthrough, int loadtolerance, int maxload, bool verbose) : m_server(server), m_daemon(daemon), m_countries(countries), m_ovpn(ovpn), m_stat(stat), m_user(user), m_password(
         passsword), m_passthrough(passthrough), m_loadtolerance(loadtolerance), m_maxload(maxload), m_verbose(verbose), m_message("") {
 }
 
-bool NVPNOptions::get_server() const {
+bool Options::get_server() const {
     return m_server;
 }
 
-bool NVPNOptions::get_daemon() const {
+bool Options::get_daemon() const {
     return m_daemon;
 }
 
-std::vector<std::string> NVPNOptions::get_countries() const {
+std::vector<std::string> Options::get_countries() const {
     return m_countries;
 }
 
-std::string NVPNOptions::get_ovpn() const {
+std::string Options::get_ovpn() const {
     return m_ovpn;
 }
 
-std::string NVPNOptions::get_stat() const {
+std::string Options::get_stat() const {
     return m_stat;
 }
 
-std::string NVPNOptions::get_user() const {
+std::string Options::get_user() const {
     return m_user;
 }
 
-std::string NVPNOptions::get_password() const {
+std::string Options::get_password() const {
     return m_password;
 }
 
-std::string NVPNOptions::get_passthrough() const {
+std::string Options::get_passthrough() const {
     return m_passthrough;
 }
 
-int NVPNOptions::get_loadtolerance() const {
+int Options::get_loadtolerance() const {
     return m_loadtolerance;
 }
 
-int NVPNOptions::get_maxload() const {
+int Options::get_maxload() const {
     return m_maxload;
 }
 
-std::string NVPNOptions::get_validation_message() const {
+std::string Options::get_validation_message() const {
     return m_message;
 }
 
-bool NVPNOptions::get_verbose() const {
+bool Options::get_verbose() const {
     return m_verbose;
 }
 
-bool NVPNOptions::validate() {
+bool Options::validate() {
     m_message = "";
     bool valid = true;
     if (m_user.empty() || m_password.empty()) {
@@ -64,6 +65,13 @@ bool NVPNOptions::validate() {
     if (m_server && m_countries.empty()) {
         valid = false;
         m_message += "With -s,--server a server name must be provided\n";
+    }
+    if (!m_server) {
+        std::string icountry = invalid_country();
+        if (!icountry.empty()) {
+            valid = false;
+            m_message += "The country " + icountry + " is not valid\n";
+        }
     }
     if (m_ovpn.empty()) {
         valid = false;
@@ -84,7 +92,7 @@ bool NVPNOptions::validate() {
     return valid;
 }
 
-std::string NVPNOptions::describe() const {
+std::string Options::describe() const {
     std::string desc;
     if (m_server) {
         desc += "Server: " + (m_countries.size() > 0 ? m_countries[0] : "not provided") + "\n";
@@ -103,7 +111,21 @@ std::string NVPNOptions::describe() const {
     return desc;
 }
 
-std::string NVPNOptions::country_list() const {
+std::string Options::invalid_country() const {
+    if (m_countries.empty()) {
+        return "";
+    }
+    Poco::RegularExpression expr("[a-z][a-z]");
+    Poco::RegularExpression::MatchVec mvec;
+    for (std::string country : m_countries) {
+        if (country.length() != 2 || !expr.match(country, 0, mvec)) {
+            return country;
+        }
+    }
+    return "";
+}
+
+std::string Options::country_list() const {
     std::string desc;
     for (std::vector<int>::size_type ii = 0; ii != m_countries.size(); ii++) {
         desc += m_countries[ii] + " ";

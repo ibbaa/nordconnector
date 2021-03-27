@@ -10,7 +10,7 @@ conan_basic_setup()
 set(SOURCES 
 	src/nordc.cpp
 	src/Main.cpp
-	src/args/NVPNOptions.cpp
+	src/args/Options.cpp
 	src/args/CommandLineParser.cpp
 	src/server/AsyncHTTPDownloader.cpp
 	src/server/ServerSelector.cpp

@@ -16,7 +16,7 @@
 
 int Main::main(int argc, char *argv[]) {
     CommandLineParser parser;
-    NVPNOptions options = parser.parse(argc, argv);
+    Options options = parser.parse(argc, argv);
     if (!options.validate()) {
         Output::err_output(options.get_validation_message());
         return RETURN_CODES::VALIDATION_ERROR;
@@ -81,14 +81,14 @@ std::string Main::get_from_future(std::future<std::string> &data) {
     return "";
 }
 
-Server Main::select_server(const NVPNOptions &options) {
+Server Main::select_server(const Options &options) {
     if (options.get_server()) {
         std::vector<std::string> countries = options.get_countries();
         if (countries.size() <= 0) {
             Output::err_output("-s/--server provided but no server specified\n");
             exit(RETURN_CODES::GENERAL_ERROR);
         }
-        return Server { };
+        return Server { countries[0], -1 };
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_result = downloader.download(options.get_stat(), options.get_verbose());

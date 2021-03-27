@@ -1,10 +1,10 @@
-#ifndef SRC_ARGS_NVPNOPTIONS_H_
-#define SRC_ARGS_NVPNOPTIONS_H_
+#ifndef SRC_ARGS_OPTIONS_H_
+#define SRC_ARGS_OPTIONS_H_
 
 #include <string>
 #include <vector>
 
-class NVPNOptions {
+class Options {
     private:
         bool m_server;
         bool m_daemon;
@@ -19,7 +19,7 @@ class NVPNOptions {
         bool m_verbose;
         std::string m_message;
     public:
-        NVPNOptions(bool server, bool dameon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
+        Options(bool server, bool dameon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
                 const std::string &passthrough, int loadtolerance, int maxload, bool verbose);
         bool get_server() const;
         bool get_daemon() const;
@@ -37,6 +37,7 @@ class NVPNOptions {
         std::string describe() const;
     private:
         std::string country_list() const;
+        std::string invalid_country() const;
 };
 
-#endif /* SRC_ARGS_NVPNOPTIONS_H_ */
+#endif /* SRC_ARGS_OPTIONS_H_ */

@@ -1,7 +1,7 @@
 #ifndef SRC_MAIN_H_
 #define SRC_MAIN_H_
 
-#include "args/NVPNOptions.h"
+#include <args/Options.h>
 #include "server/Server.h"
 #include <future>
 
@@ -11,7 +11,7 @@ class Main {
     private:
         bool is_root();
         std::string get_from_future(std::future<std::string> &data);
-        Server select_server(const NVPNOptions &options);
+        Server select_server(const Options &options);
 };
 
 #endif /* SRC_MAIN_H_ */

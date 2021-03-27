@@ -1,7 +1,7 @@
 #ifndef SRC_ARGS_COMMANDLINEPARSER_H_
 #define SRC_ARGS_COMMANDLINEPARSER_H_
 
-#include "args/NVPNOptions.h"
+#include <args/Options.h>
 #include <string>
 #include <vector>
 #include "cxxopts.hpp"
@@ -11,7 +11,7 @@
 
 class CommandLineParser {
     public:
-        NVPNOptions parse(int argc, char *argv[]);
+        Options parse(int argc, char *argv[]);
     private:
         bool get_server(const cxxopts::ParseResult &result) const;
         bool get_daemon(const cxxopts::ParseResult &result) const;

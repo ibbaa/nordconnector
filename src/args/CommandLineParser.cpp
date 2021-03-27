@@ -3,7 +3,7 @@
 #include "util/Output.h"
 #include <stdlib.h>
 
-NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
+Options CommandLineParser::parse(int argc, char *argv[]) {
     cxxopts::Options options(argv[0], "Alternative NordVPN connection tool");
     options.add_options()("s,server", "connect to a specific server by name, otherwise the server is chosen based on a list of countries", cxxopts::value<bool>()->default_value("false"))("d,daemon",
             "run openvpn in daemon mode", cxxopts::value<bool>()->default_value("false"))("h,help", "Print help")("o,ovpn", "Url to retrieve openvpn server configuration",
@@ -19,7 +19,7 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
             Output::output(options.help(), true);
             exit(RETURN_CODES::OK);
         }
-        return NVPNOptions(get_server(result), get_daemon(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result),
+        return Options(get_server(result), get_daemon(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result),
                 get_loadtolerance(result), get_maxloadh(result), get_verbose(result));
     } catch (const cxxopts::OptionException &exc) {
         Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
