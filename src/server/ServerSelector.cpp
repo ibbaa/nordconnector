@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <iostream>
 #include "Poco/Foundation.h"
-#include "Poco/RegularExpression.h"
 #include "Poco/JSON/Array.h"
 #include "Poco/JSON/JSON.h"
 #include "Poco/JSON/Parser.h"
+
+ServerSelector::ServerSelector() : m_cexpr("[a-z][a-z]\\d+") {
+}
 
 Server ServerSelector::select(const std::string &data, const std::vector<std::string> &countries, int loadtolerance, int maxload, bool verbose) {
     try {
@@ -101,9 +103,7 @@ bool ServerSelector::valid(const std::string &server) {
         return false;
     }
     std::string cpart = server.substr(0, cpos);
-    Poco::RegularExpression expr("[a-z][a-z]\\d+");
-    Poco::RegularExpression::MatchVec mvec;
-    if (expr.match(cpart, 0, mvec)) {
+    if (m_cexpr.match(cpart, 0, m_cmvec)) {
         return true;
     }
     return true;

@@ -7,9 +7,14 @@
 #include <random>
 #include <iterator>
 #include "Poco/JSON/Parser.h"
+#include "Poco/RegularExpression.h"
 
 class ServerSelector {
+    private:
+        Poco::RegularExpression m_cexpr;
+        Poco::RegularExpression::MatchVec m_cmvec;
     public:
+        ServerSelector();
         Server select(const std::string &data, const std::vector<std::string> &countries, int loadtolerance, int maxload, bool verbose);
     private:
         bool matching_country(const std::string &server, const std::string &country);
