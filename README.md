@@ -10,21 +10,25 @@ Copy the binary file anywhere you want, e.g. `/usr/local/bin`. The tool does req
 
 `sudo nordc -v -u user -p password`
 
-randomly chooses a country and connects to the server with the least load. It will take a few seconds because the configuration files are downloaded. `-v` gives verbose output and may be ommitted.
+randomly chooses a country and connects to the server meeting the load requirements. It will take a few seconds because the configuration files are downloaded. `-v` gives verbose output and may be ommitted.
 
 It is probably better to provide a country to connect:
 
 `sudo nordc -v -u user -p password de`
 
-connects to the least busy server in germany.
+connects to a server in germany meeting the load requirements.
 
 `sudo nordc -v -u user -p password de it`
 
-randomly chooses one country, germany or italy, and connects to the least busy server there.
+randomly chooses one country, germany or italy, and connects to a server there that meets the load requirements.
 
 The option `-s` lets you provide a specific server to connect:
 
 `sudo nordc -v -s -u user -p password de961.nordvpn.com`
+
+## Load requirements
+
+`nordc` finds the least busy servers, i.e. the servers with the minimum load factor value while respecting a tolerance specified by the `--loadtolerance` option (0 to 100, default is 5). E.g., if the minimum load factor is 20 and the tolerance is 5, a server with a load factor of 24 is acceptable and will be taken into account. From the list of servers meeting these requirements, one will be chosen randomly. It's possible to provide a maximum acceptable load factor with the `--maxload` option (0 to 100, default is 70). Servers with a load factor up the maximum will be ignored. If no servers with a load factor below the maximum are available, the least busy server is selected. The maximum and tolerance values are ignored in this case.
 
 ## Daemon mode
 
@@ -59,18 +63,21 @@ Alternative NordVPN connection tool
 Usage:
   nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
 
-  -s, --server           connect to a specific server by name, otherwise the
-                         server is chosen based on a list of countries
-  -d, --daemon           run openvpn in daemon mode
-  -h, --help             Print help
-  -o, --ovpn arg         Url to retrieve openvpn server configuration
-                         (default:
-                         https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip)
-  -a, --stat arg         Url to retrieve server statistics (default:
-                         https://api.nordvpn.com/server/stats)
-  -u, --user arg         User
-  -p, --password arg     Password
-  -t, --passthrough arg  command line options directly passed to openvpn
-  -v, --verbose          Verbose output
+  -s, --server             connect to a specific server by name, otherwise
+                           the server is chosen based on a list of countries
+  -d, --daemon             run openvpn in daemon mode
+  -h, --help               Print help
+  -o, --ovpn arg           Url to retrieve openvpn server configuration
+                           (default:
+                           https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip)
+  -a, --stat arg           Url to retrieve server statistics (default:
+                           https://api.nordvpn.com/server/stats)
+  -u, --user arg           User
+  -p, --password arg       Password
+  -t, --passthrough arg    command line options directly passed to openvpn
+  -l, --loadtolerance arg  acceptable load tolerance (0 to 100) (default: 5)
+  -m, --maxload arg        max acceptable load (0 to 100) (default: 70)
+  -v, --verbose            Verbose output
+
 ```
 
