@@ -14,11 +14,13 @@ class NVPNOptions {
         std::string m_user;
         std::string m_password;
         std::string m_passthrough;
+        int m_maxload;
+        int m_loadtolerance;
         bool m_verbose;
         std::string m_message;
     public:
         NVPNOptions(bool server, bool dameon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
-                const std::string &passthrough, bool verbose);
+                const std::string &passthrough, int loadtolerance, int maxload, bool verbose);
         bool get_server() const;
         bool get_daemon() const;
         std::vector<std::string> get_countries() const;
@@ -27,6 +29,8 @@ class NVPNOptions {
         std::string get_user() const;
         std::string get_password() const;
         std::string get_passthrough() const;
+        int get_loadtolerance() const;
+        int get_maxload() const;
         bool get_verbose() const;
         bool validate();
         std::string get_validation_message() const;

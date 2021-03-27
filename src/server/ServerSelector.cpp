@@ -2,14 +2,13 @@
 #include "util/Output.h"
 #include <stdlib.h>
 #include <iostream>
-#include <random>
-#include <iterator>
+#include "Poco/Foundation.h"
+#include "Poco/RegularExpression.h"
 #include "Poco/JSON/Array.h"
 #include "Poco/JSON/JSON.h"
 #include "Poco/JSON/Parser.h"
-#include "Poco/Dynamic/Var.h"
 
-std::string ServerSelector::select(const std::string &data, const std::vector<std::string> &countries, bool verbose) {
+Server ServerSelector::select(const std::string &data, const std::vector<std::string> &countries, int loadtolerance, int maxload, bool verbose) {
     try {
         Poco::JSON::Parser json_parser;
         Poco::Dynamic::Var json_data = json_parser.parse(data);
@@ -32,32 +31,60 @@ std::string ServerSelector::select(const std::string &data, const std::vector<st
         }
         if (country.empty()) {
             Output::err_output("Unable to select suitable country\n");
-            return "";
+            return Server { };
         }
         Output::output("Selected country: " + country + "\n", verbose);
-        int min = 100;
-        std::string sel_server;
-        for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
-            std::string server = itr->first;
-            if (valid(server) && matching_country(server, country)) {
-                Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
-                Poco::Dynamic::Var lf_obj_val = lf_obj->get("percent");
-                if (lf_obj_val.isInteger()) {
-                    int lf = lf_obj_val.convert<int>();
-                    if (lf < min) {
-                        min = lf;
-                        sel_server = server;
-                    }
-                }
-            }
+        int min = get_min_load(json_servers, country);
+        const std::vector<std::pair<std::string, int>> &servers = get_acc_servers(json_servers, country, min, loadtolerance, maxload);
+        if (servers.empty()) {
+            return Server { };
         }
-        return sel_server;
+        const std::pair<std::string, int> &server = *select_random(servers.begin(), servers.end());
+        return Server { server.first, server.second };
     } catch (Poco::Exception &exc) {
         Output::err_output("Error parsing server data: " + exc.displayText() + "\n");
     } catch (...) {
         Output::err_output("Error parsing server data.\n");
     }
-    return "";
+    return Server { };
+}
+
+int ServerSelector::get_min_load(Poco::JSON::Object::Ptr json_servers, const std::string &country) {
+    int min = 100;
+    for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
+        std::string server = itr->first;
+        if (valid(server) && matching_country(server, country)) {
+            Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
+            Poco::Dynamic::Var lf_obj_val = lf_obj->get("percent");
+            if (lf_obj_val.isInteger()) {
+                int lf = lf_obj_val.convert<int>();
+                if (lf < min) {
+                    min = lf;
+                }
+            }
+        }
+    }
+    return min;
+}
+
+std::vector<std::pair<std::string, int>> ServerSelector::get_acc_servers(Poco::JSON::Object::Ptr json_servers, const std::string &country, int minload, int loadtolerance, int maxload) {
+    std::vector<std::pair<std::string, int>> servers;
+    for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
+        std::string server = itr->first;
+        if (valid(server) && matching_country(server, country)) {
+            Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
+            Poco::Dynamic::Var lf_obj_val = lf_obj->get("percent");
+            if (lf_obj_val.isInteger()) {
+                int lf = lf_obj_val.convert<int>();
+                if (lf <= minload) {
+                    servers.push_back(std::make_pair(server, lf));
+                } else if (lf - minload <= loadtolerance && lf <= maxload) {
+                    servers.push_back(std::make_pair(server, lf));
+                }
+            }
+        }
+    }
+    return servers;
 }
 
 bool ServerSelector::matching_country(const std::string &server, const std::string &country) {
@@ -80,12 +107,4 @@ bool ServerSelector::valid(const std::string &server) {
         return true;
     }
     return true;
-}
-
-std::vector<std::string>::const_iterator ServerSelector::select_random(std::vector<std::string>::const_iterator start, std::vector<std::string>::const_iterator end) {
-    static std::random_device rd;
-    static std::mt19937 gen(rd());
-    std::uniform_int_distribution<> dis(0, std::distance(start, end) - 1);
-    std::advance(start, dis(gen));
-    return start;
 }

@@ -31,21 +31,25 @@ int Main::main(int argc, char *argv[]) {
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn(), options.get_verbose());
-    const std::string &server = select_server(options);
-    Output::output("Selected server: " + server + "\n", options.get_verbose());
+    const Server &server = select_server(options);
+    if (server.get_load() >= 0) {
+        Output::output("Selected server: " + server.get_address() + " with current load factor of " + std::to_string(server.get_load()) + "\n", options.get_verbose());
+    } else {
+        Output::output("Selected server: " + server.get_address() + "\n", options.get_verbose());
+    }
     const std::string &ovpn_data = get_from_future(stat_ovpn);
     if (ovpn_data.empty()) {
         Output::err_output("Download error\n");
         return RETURN_CODES::DOWNLOAD_ERROR;
     }
     OVPNConfigReader reader;
-    const std::string &ovpn_config = reader.extract_config(ovpn_data, server, options.get_verbose());
+    const std::string &ovpn_config = reader.extract_config(ovpn_data, server.get_address(), options.get_verbose());
     if (ovpn_config.empty()) {
         Output::err_output("Error retrieving openvpn configuration\n");
         return RETURN_CODES::OVPN_CONFIG_ERROR;
     }
     CredentialsHelper cred_helper;
-    const std::string &ovpn_cred = cred_helper.provide_ovpn_credentials(server, options.get_user(), options.get_password(), options.get_verbose());
+    const std::string &ovpn_cred = cred_helper.provide_ovpn_credentials(server.get_address(), options.get_user(), options.get_password(), options.get_verbose());
     if (ovpn_cred.empty()) {
         Output::err_output("Error providing ovpn credentials\n");
         Output::delete_file(ovpn_config);
@@ -77,14 +81,14 @@ std::string Main::get_from_future(std::future<std::string> &data) {
     return "";
 }
 
-std::string Main::select_server(const NVPNOptions &options) {
+Server Main::select_server(const NVPNOptions &options) {
     if (options.get_server()) {
         std::vector<std::string> countries = options.get_countries();
         if (countries.size() <= 0) {
             Output::err_output("-s/--server provided but no server specified\n");
             exit(RETURN_CODES::GENERAL_ERROR);
         }
-        return countries[0];
+        return Server { };
     }
     AsyncHTTPDownloader downloader;
     std::future<std::string> stat_result = downloader.download(options.get_stat(), options.get_verbose());
@@ -94,8 +98,8 @@ std::string Main::select_server(const NVPNOptions &options) {
         exit(RETURN_CODES::DOWNLOAD_ERROR);
     }
     ServerSelector selector;
-    std::string server = selector.select(stat_data, options.get_countries(), options.get_verbose());
-    if (server.empty()) {
+    Server server = selector.select(stat_data, options.get_countries(), options.get_loadtolerance(), options.get_maxload(), options.get_verbose());
+    if (server.get_address().empty()) {
         Output::err_output("Error retrieving suitable server\n");
         exit(RETURN_CODES::SELECT_ERROR);
     }

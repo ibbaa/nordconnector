@@ -9,7 +9,8 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
             "run openvpn in daemon mode", cxxopts::value<bool>()->default_value("false"))("h,help", "Print help")("o,ovpn", "Url to retrieve openvpn server configuration",
             cxxopts::value<std::string>()->default_value(OVPN_URL_DEFAULT))("a,stat", "Url to retrieve server statistics", cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user",
             "User", cxxopts::value<std::string>())("p,password", "Password", cxxopts::value<std::string>())("t,passthrough", "command line options directly passed to openvpn",
-            cxxopts::value<std::string>())("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "", cxxopts::value<std::vector<std::string>>());
+            cxxopts::value<std::string>())("l,loadtolerance", "acceptable load tolerance (0 to 100)", cxxopts::value<int>()->default_value("5"))("m,maxload", "max acceptable load (0 to 100)",
+            cxxopts::value<int>()->default_value("70"))("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "", cxxopts::value<std::vector<std::string>>());
     options.parse_positional("countries");
     options.positional_help("list of countries to connect (separated by blank), if -s is provided a specific server by name");
     try {
@@ -19,7 +20,7 @@ NVPNOptions CommandLineParser::parse(int argc, char *argv[]) {
             exit(RETURN_CODES::OK);
         }
         return NVPNOptions(get_server(result), get_daemon(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result),
-                get_verbose(result));
+                get_loadtolerance(result), get_maxloadh(result), get_verbose(result));
     } catch (const cxxopts::OptionException &exc) {
         Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
         exit(RETURN_CODES::PARSE_ERROR);
@@ -84,4 +85,12 @@ std::string CommandLineParser::get_passthrough(const cxxopts::ParseResult &resul
         return result["passthrough"].as<std::string>();
     }
     return "";
+}
+
+int CommandLineParser::get_loadtolerance(const cxxopts::ParseResult &result) const {
+    return result["loadtolerance"].as<int>();
+}
+
+int CommandLineParser::get_maxloadh(const cxxopts::ParseResult &result) const {
+    return result["maxload"].as<int>();
 }
