@@ -26,4 +26,4 @@ set(SOURCES
 
 add_executable(nordc ${SOURCES})
 target_include_directories(nordc PUBLIC include PRIVATE src)
-target_link_libraries(nordc ${CONAN_LIBS
+target_link_libraries(nordc ${CONAN_LIBS})
