@@ -13,12 +13,14 @@ set(CMAKE_BUILD_WITH_INSTALL_RPATH ON)
 set(SOURCES 
     src/nordc.cpp
 	src/Main.cpp
-	src/args/NVPNOptions.cpp
+	src/args/Options.cpp
 	src/args/CommandLineParser.cpp
 	src/server/AsyncHTTPDownloader.cpp
 	src/server/ServerSelector.cpp
+	src/server/Server.cpp
 	src/config/CredentialsHelper.cpp
 	src/config/OVPNConfigReader.cpp
+	src/ovpn/OVPNConnector.cpp
 	src/util/Output.cpp
 )
 
