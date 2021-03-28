@@ -54,6 +54,10 @@ This can be used to provide scripts for changing DNS settings when the connectio
 
 `--script-security 2` is necessary for `openvpn` to execute user scripts. No scripts are provided by the nordconnector project at the moment, however.
 
+## Build
+
+The released binary is compiled and statically linked for 64Bit x86 architecture and should run under most modern Linux distributions. If not, you can try to build it yourself. `nordc` uses CMake and Conan (https://conan.io/), so these tools must be installed to successfully build `nordc`. Simply call `./build.sh` in the main branch. The release binary is loacted under `build/Release/bin`. The script `sharedbuild/build.sh` builds a dynamically linked variant with shared libraries. The shared library version will be under `sharedbuild/build/Release/bin`, the shared libraries are located under `sharedbuild/build/Release/lib`. There is a wrapper script `nordc.sh` which sets the `LD_LIBRARY_PATH` according to this package structure `bin` and `lib` in a directory. Alternatively you can copy the necessary libraries to a shared library default location of your system. It is recommended to use the statically linked version without the shared library hassle.
+
 ## Options
 
 `nordc --help` prints all available options:
