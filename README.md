@@ -28,7 +28,7 @@ The option `-s` lets you provide a specific server to connect:
 
 ## Load requirements
 
-`nordc` finds the least busy servers, i.e. the servers with the minimum load factor value while respecting a tolerance specified by the `--loadtolerance` option (0 to 100, default is 5). E.g., if the minimum load factor is 20 and the tolerance is 5, a server with a load factor of 24 is acceptable and will be taken into account. From the list of servers meeting these requirements, one will be chosen randomly. It's possible to provide a maximum acceptable load factor with the `--maxload` option (0 to 100, default is 70). Servers with a load factor up the maximum will be ignored. If no servers with a load factor below the maximum are available, the least busy server is selected. The maximum and tolerance values are ignored in this case.
+`nordc` finds the least busy servers, i.e. the servers with the minimum load factor value while respecting a tolerance specified by the `--loadtolerance` option (0 to 100, default is 5). E.g., if the minimum load factor is 20 and the tolerance is 5, a server with a load factor of 24 is acceptable and will be taken into account. From the list of servers meeting these requirements, one will be chosen randomly. It's possible to provide a maximum acceptable load factor with the `--maxload` option (0 to 100, default is 70). Servers with a load factor up the maximum will be ignored. If no servers with a load factor below the maximum are available, the least busy server is selected. The tolerance value is ignored in this case.
 
 ## Daemon mode
 
