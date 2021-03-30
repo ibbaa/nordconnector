@@ -80,7 +80,7 @@ Usage:
   -p, --password arg       Password
   -t, --passthrough arg    command line options directly passed to openvpn
   -l, --loadtolerance arg  acceptable load tolerance (0 to 100) (default: 5)
-  -m, --maxload arg        max acceptable load (0 to 100) (default: 70)
+  -m, --maxload arg        maximum acceptable load (0 to 100) (default: 70)
   -v, --verbose            Verbose output
 
 ```
