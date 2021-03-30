@@ -48,7 +48,7 @@ Normally `nordc` starts `openvpn` and waits for its termination in the foregroun
 
 adds `--ping 5` to the `openvpn` call options.
 
-This can be used to provide scripts for changing DNS settings when the connection is estabished and terminated with the `openvpn` `--up` and `--down` options:
+This can be used to provide scripts for changing DNS settings when the connection is established and terminated with the `openvpn` `--up` and `--down` options:
 
 `sudo nordc -v -u user -p password -t '--script-security 2 --up ./myupscript.sh --down ./mydownscript.sh' de`
 
