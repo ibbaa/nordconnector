@@ -9,7 +9,7 @@ Options CommandLineParser::parse(int argc, char *argv[]) {
             "run openvpn in daemon mode", cxxopts::value<bool>()->default_value("false"))("h,help", "Print help")("o,ovpn", "Url to retrieve openvpn server configuration",
             cxxopts::value<std::string>()->default_value(OVPN_URL_DEFAULT))("a,stat", "Url to retrieve server statistics", cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user",
             "User", cxxopts::value<std::string>())("p,password", "Password", cxxopts::value<std::string>())("t,passthrough", "command line options directly passed to openvpn",
-            cxxopts::value<std::string>())("l,loadtolerance", "acceptable load tolerance (0 to 100)", cxxopts::value<int>()->default_value("5"))("m,maxload", "max acceptable load (0 to 100)",
+            cxxopts::value<std::string>())("l,loadtolerance", "acceptable load tolerance (0 to 100)", cxxopts::value<int>()->default_value("5"))("m,maxload", "maximum acceptable load (0 to 100)",
             cxxopts::value<int>()->default_value("70"))("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "", cxxopts::value<std::vector<std::string>>());
     options.parse_positional("countries");
     options.positional_help("list of countries to connect (separated by blank), if -s is provided a specific server by name");
