@@ -56,7 +56,17 @@ This can be used to provide scripts for changing DNS settings when the connectio
 
 ## Build
 
-The released binary is compiled and statically linked for 64Bit x86 architecture and should run under most modern Linux distributions. If not, you can try to build it yourself. `nordc` is written in C++ 11 and uses CMake and Conan (https://conan.io/), so these tools must be installed to successfully build `nordc`. Simply call `./build.sh` in the main branch. The release binary is located under `build/Release/bin`. The script `sharedbuild/build.sh` builds a dynamically linked variant with shared libraries. The shared library version will be located under `sharedbuild/build/Release/bin`, the shared libraries are located under `sharedbuild/build/Release/lib`. There is a wrapper script `nordc.sh` which sets the `LD_LIBRARY_PATH` according to this package structure `bin` and `lib` in a directory. Alternatively you can copy the necessary libraries to a shared library default location of your system. It is recommended to use the statically linked version without the shared library hassle.
+The released binary is compiled and statically linked for 64Bit x86 architecture and should run under most modern Linux distributions. If not, you can try to build it yourself. `nordc` is written in C++ 11 and uses CMake and Conan (https://conan.io/). Two build variants are available: Locally and in a docker container.
+
+### Local
+
+For the local build, CMake and Conan must be installed. Simply call `./build.sh` in the main branch. The release binary is located under `build/Release/bin`. The script `sharedbuild/build.sh` builds a dynamically linked variant with shared libraries. The shared library version will be located under `sharedbuild/build/Release/bin`, the shared libraries are located under `sharedbuild/build/Release/lib`. There is a wrapper script `nordc.sh` which sets the `LD_LIBRARY_PATH` according to this package structure `bin` and `lib` in a directory. Alternatively you can copy the necessary libraries to a shared library default location of your system. It is recommended to use the statically linked version without the shared library hassle.
+
+### Docker
+
+There are no installation prerequisites for the docker build (except for docker, of course). `./docker_build.sh` creates the docker image and triggers the build. The project directory is mounted in the container, so the directory structure and the result location are the same as in the local build. The docker build installs everything from scratch and takes much longer but provides a clean and reproducible build environment. The docker build creates the statically linked variant but it should be possible to build the dynamically linked variant with the same docker file.
+
+### 
 
 ## Options
 
