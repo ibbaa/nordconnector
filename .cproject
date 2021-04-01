@@ -37,6 +37,10 @@
 			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
 			<storageModule buildDir="build/${ConfigName}" moduleId="de.marw.cdt.cmake.core.settings">
 				<options/>
+				<linux command="cmake" generator="UnixMakefiles" use-default="true">
+					<defs/>
+					<undefs/>
+				</linux>
 			</storageModule>
 		</cconfiguration>
 		<cconfiguration id="de.marw.cmake.cdt.lsp.config.cmake.1047888388">
@@ -118,9 +122,6 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="nordconnector.de.marw.cmake.cdt.lsp.projectType.1823821165" name="CMake driven" projectType="de.marw.cmake.cdt.lsp.projectType"/>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
 	<storageModule moduleId="refreshScope" versionNumber="2">
 		<configuration configurationName="Default">
@@ -134,4 +135,14 @@
 		</configuration>
 	</storageModule>
 	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="de.marw.cmake.cdt.lsp.config.debug.1372734225;de.marw.cmake.cdt.lsp.config.debug.1372734225.;de.marw.cmake.cdt.lsp.toolchain.tool.dummy.1908670396;de.marw.cmake.cdt.lsp.inputType.cpp.446594876">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="de.marw.cmake.cdt.lsp.config.debug.1372734225;de.marw.cmake.cdt.lsp.config.debug.1372734225.;de.marw.cmake.cdt.lsp.toolchain.tool.dummy.1908670396;de.marw.cmake.cdt.lsp.inputType.c.974257757">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.internal.ui.text.commentOwnerProjectMappings"/>
 </cproject>

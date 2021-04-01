@@ -2,9 +2,10 @@
 #include "args/CommandLineParser.h"
 #include "util/Output.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 Options CommandLineParser::parse(int argc, char *argv[]) {
-    cxxopts::Options options(argv[0], "Alternative NordVPN connection tool");
+    cxxopts::Options options(argv[0], std::string("nordc version ") + VERSION + ", build time " + __DATE__ + " " + __TIME__);
     options.add_options()("s,server", "connect to a specific server by name, otherwise the server is chosen based on a list of countries", cxxopts::value<bool>()->default_value("false"))("d,daemon",
             "run openvpn in daemon mode", cxxopts::value<bool>()->default_value("false"))("h,help", "Print help")("o,ovpn", "Url to retrieve openvpn server configuration",
             cxxopts::value<std::string>()->default_value(OVPN_URL_DEFAULT))("a,stat", "Url to retrieve server statistics", cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user",
