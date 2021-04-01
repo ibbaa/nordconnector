@@ -73,7 +73,7 @@ There are no installation prerequisites for the docker build (except for docker,
 `nordc --help` prints all available options:
 
 ```
-Alternative NordVPN connection tool
+nordc version 1.0.0, build time Apr  1 2021 15:18:48
 Usage:
   nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
 
