@@ -64,7 +64,7 @@ For the local build, CMake and Conan must be installed. Simply call `./build.sh`
 
 ### Docker
 
-There are no installation prerequisites for the docker build (except for docker, of course). `./docker_build.sh` creates the docker image and triggers the build. The project directory is mounted in the container, so the directory structure and the result location are the same as in the local build. The docker build installs everything from scratch and takes much longer but provides a clean and reproducible build environment. The docker build creates the statically linked variant but it should be possible to build the dynamically linked variant with the same docker file.
+There are no installation prerequisites for the docker build (except for docker, of course). `./docker_build.sh` creates the docker image and triggers the build. The project directory is mounted in the container. The release binary is located under `dockerbuild/Release/bin`. The docker build installs everything from scratch and takes much longer but provides a clean and reproducible build environment. The docker build creates the statically linked variant but it should be possible to build the dynamically linked variant with the same docker file.
 
 ### 
 
