@@ -6,7 +6,7 @@ NordVPN configuration files are downloaded and kept in memory. The OpenVPN confi
 
 ## Usage
 
-Copy the binary file anywhere you want, e.g. `/usr/local/bin`. The tool does require sudo privileges. At least your NordVPN username and password must be provided:
+Download the binary archive and extract the nordc executable anywhere you want, e.g. `/usr/local/bin`. The tool does require sudo privileges. At least your NordVPN username and password must be provided:
 
 `sudo nordc -v -u user -p password`
 
