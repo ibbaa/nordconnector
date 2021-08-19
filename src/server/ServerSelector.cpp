@@ -42,7 +42,7 @@ Server ServerSelector::select(const std::string &data, const std::vector<std::st
             return Server { };
         }
         const std::pair<std::string, int> &server = *select_random(servers.begin(), servers.end());
-        return Server { server.first, server.second };
+        return Server { server.first, server.second, false };
     } catch (Poco::Exception &exc) {
         Output::err_output("Error parsing server data: " + exc.displayText() + "\n");
     } catch (...) {
