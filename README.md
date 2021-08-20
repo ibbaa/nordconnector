@@ -73,9 +73,9 @@ There are no installation prerequisites for the docker build (except for docker,
 `nordc --help` prints all available options:
 
 ```
-nordc version 1.0.0, build time Apr  2 2021 09:49:16
+nordc version 1.0.2, build time Aug 19 2021 18:03:40
 Usage:
-  ./nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
+  nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
 
   -s, --server             connect to a specific server by name, otherwise
                            the server is chosen based on a list of countries
