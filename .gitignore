@@ -1,3 +1,4 @@
 /build/
 /dockerbuild/
 /.settings/
+/deploy.sh
