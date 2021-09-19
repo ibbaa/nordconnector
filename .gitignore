@@ -2,3 +2,4 @@
 /dockerbuild/
 /.settings/
 /deploy.sh
+/undeploy.sh
