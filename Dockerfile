@@ -1,4 +1,4 @@
-FROM gcc:9.3
+FROM gcc:10.3.0
 
 ARG UID
 ARG GID
