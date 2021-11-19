@@ -37,7 +37,7 @@ int Main::main(int argc, char *argv[]) {
         server_data = download_servers(options);
         server = select_server(server_data, options);
     }
-    log_sever(server, options);
+    log_server(server, options);
     const std::string &ovpn_data = get_from_future(stat_ovpn);
     if (ovpn_data.empty()) {
         Output::err_output("Download error\n");
@@ -50,7 +50,7 @@ int Main::main(int argc, char *argv[]) {
         Output::output("Error retrieving openvpn configuration\n", options.get_verbose());
         Output::output("Retry...\n", options.get_verbose());
         server = select_server(server_data, options);
-        log_sever(server, options);
+        log_server(server, options);
         ovpn_config = reader.extract_config(ovpn_data, server.get_address(), options.get_verbose());
         retry--;
     }
@@ -124,7 +124,7 @@ Server Main::select_server(const std::string stat_data, const Options &options) 
     return server;
 }
 
-void Main::log_sever(const Server &server, const Options &options) {
+void Main::log_server(const Server &server, const Options &options) {
     if (server.get_load() >= 0) {
         Output::output("Selected server: " + server.get_address() + " with current load factor of " + std::to_string(server.get_load()) + "\n", options.get_verbose());
     } else {

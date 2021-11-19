@@ -14,7 +14,7 @@ class Main {
         std::string download_servers(const Options &options);
         Server select_provided_server(const Options &options);
         Server select_server(const std::string stat_data, const Options &options);
-        void log_sever(const Server &server, const Options &options);
+        void log_server(const Server &server, const Options &options);
 };
 
 #endif /* SRC_MAIN_H_ */
