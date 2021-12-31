@@ -1,6 +1,6 @@
 [requires]
-cxxopts/2.2.1
-poco/1.11.0
+cxxopts/3.0.0
+poco/1.11.1
  
 [options]
 poco:shared=True
