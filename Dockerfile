@@ -1,4 +1,4 @@
-FROM gcc:10.3.0
+FROM debian:bullseye
 
 ARG UID
 ARG GID
