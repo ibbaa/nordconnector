@@ -16,6 +16,7 @@ pipeline {
     stages {
         stage('checkout') {
             steps {
+                deleteDir()
                 checkout([$class: 'GitSCM',
                           branches: [[name: "${params.BRANCH}"]],
                           doGenerateSubmoduleConfigurations: false,
