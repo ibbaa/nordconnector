@@ -11,7 +11,7 @@ pipeline {
         copyArtifactPermission('deploy_nordconnector')
     }
     triggers {
-        cron('TZ=Europe/Berlin\n30 00 * * 2-7')
+        parameterizedCron('TZ=Europe/Berlin\n30 00 * * 2-7 % BRANCH=main')
     }
     stages {
         stage('checkout') {
