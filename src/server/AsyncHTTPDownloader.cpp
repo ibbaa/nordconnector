@@ -32,7 +32,7 @@ bool AsyncHTTPDownloader::initSSL() {
 }
 
 std::future<std::string> AsyncHTTPDownloader::download(const std::string &urlstr, bool verbose) {
-    return std::async(std::launch::async, &AsyncHTTPDownloader::async_download, this, urlstr, verbose); // @suppress("Invalid arguments")
+    return std::async(std::launch::async, &AsyncHTTPDownloader::async_download, this, urlstr, verbose);
 }
 
 std::string AsyncHTTPDownloader::async_download(const std::string &urlstr, bool verbose) {
