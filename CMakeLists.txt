@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD 11)
 include(${CMAKE_BINARY_DIR}/../conan/conanbuildinfo.cmake)
 conan_basic_setup()
 
+# find_package(Poco REQUIRED)
+# find_package(cxxopts REQUIRED)
+
 set(SOURCES 
 	src/nordc.cpp
 	src/Main.cpp
@@ -24,4 +27,4 @@ set(SOURCES
 add_executable(nordc ${SOURCES})
 target_include_directories(nordc PRIVATE src)
 target_link_libraries(nordc -static-libgcc -static-libstdc++ ${CONAN_LIBS})
-
+# target_link_libraries(nordc -static-libgcc -static-libstdc++ ${CONAN_LIBS} Poco::Poco cxxopts::cxxopts)
