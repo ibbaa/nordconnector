@@ -5,7 +5,9 @@ if [ $# -gt 0 ]
 fi
 rm -rf $BUILD
 mkdir -p $BUILD/{Debug,Release,conan}
+# conan profile detect --force
 conan profile update settings.compiler.libcxx=libstdc++11 default
+# conan install . --output-folder=build --build=missing
 conan install -if $BUILD/conan . --build=missing
 cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -G "Unix Makefiles" -B $BUILD/Debug .
 cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -G "Unix Makefiles" -B $BUILD/Release .
