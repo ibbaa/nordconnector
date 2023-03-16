@@ -3,3 +3,4 @@
 /.settings/
 /deploy.sh
 /undeploy.sh
+/_build/
