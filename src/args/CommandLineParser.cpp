@@ -28,7 +28,7 @@ Options CommandLineParser::parse(int argc, char *argv[]) {
         }
         return Options(get_server(result), get_daemon(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result),
                 get_loadtolerance(result), get_maxloadh(result), get_verbose(result));
-    } catch (const cxxopts::OptionException &exc) {
+    } catch (const cxxopts::exceptions::exception &exc) {
         Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
         exit(RETURN_CODES::PARSE_ERROR);
     } catch (...) {
