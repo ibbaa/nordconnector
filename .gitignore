@@ -4,3 +4,6 @@
 /deploy.sh
 /undeploy.sh
 /_build/
+/conaninfo.txt
+/CMakeUserPresets.json
+/graph_info.json

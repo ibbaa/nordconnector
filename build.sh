@@ -4,15 +4,12 @@ if [ $# -gt 0 ]
 	then BUILD=$1
 fi
 rm -rf $BUILD
-mkdir -p $BUILD/{Debug,Release,conan}
-# conan profile detect --force
-conan profile update settings.compiler.libcxx=libstdc++11 default
-# conan install . --output-folder=build --build=missing
-conan install -if $BUILD/conan . --build=missing
-cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -G "Unix Makefiles" -B $BUILD/Debug .
-cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -G "Unix Makefiles" -B $BUILD/Release .
-# cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -G "Unix Makefiles" -B $BUILD/Debug .
-# cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -G "Unix Makefiles" -B $BUILD/Release .
+mkdir -p $BUILD/{Debug,Release}
+conan profile detect --force
+conan install . -s compiler.cppstd=gnu17 --output-folder=build --build=missing --settings=build_type=Release
+conan install . -s compiler.cppstd=gnu17 --output-folder=build --build=missing --settings=build_type=Debug
+cmake -DCMAKE_BUILD_TYPE:STRING=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_TOOLCHAIN_FILE=./build/conan_toolchain.cmake -G "Unix Makefiles" -B $BUILD/Debug .
+cmake -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_EXPORT_COMPILE_COMMANDS:BOOL=ON -DCMAKE_TOOLCHAIN_FILE=./build/conan_toolchain.cmake -G "Unix Makefiles" -B $BUILD/Release .
 cmake --build $BUILD/Debug
 cmake --build $BUILD/Release
-tar -czvf $BUILD/Release/bin/binary.tar.gz -C $BUILD/Release/bin nordc
+tar -czvf $BUILD/Release/binary.tar.gz -C $BUILD/Release nordc

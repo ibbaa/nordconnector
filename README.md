@@ -60,11 +60,11 @@ The released binary is compiled and statically linked for 64Bit x86 architecture
 
 ### Local
 
-For the local build, CMake and Conan must be installed. Simply call `./build.sh` in the main branch. The release binary is located under `build/Release/bin`. The script `sharedbuild/build.sh` builds a dynamically linked variant with shared libraries. The shared library version will be located under `sharedbuild/build/Release/bin`, the shared libraries are located under `sharedbuild/build/Release/lib`. There is a wrapper script `nordc.sh` which sets the `LD_LIBRARY_PATH` according to this package structure `bin` and `lib` in a directory. Alternatively you can copy the necessary libraries to a shared library default location of your system. It is recommended to use the statically linked version without the shared library hassle.
+For the local build, CMake and Conan must be installed. Simply call `./build.sh` in the main branch. The release binary is located under `build/Release`.
 
 ### Docker
 
-There are no installation prerequisites for the docker build (except for docker, of course). `./docker_build.sh` creates the docker image and triggers the build. The project directory is mounted in the container. The release binary is located under `dockerbuild/Release/bin`. The docker build installs everything from scratch and takes much longer but provides a clean and reproducible build environment. The docker build creates the statically linked variant but it should be possible to build the dynamically linked variant with the same docker file.
+There are no installation prerequisites for the docker build (except for docker, of course). `./docker_build.sh` creates the docker image and triggers the build. The project directory is mounted in the container. The release binary is located under `dockerbuild/Release`. The docker build installs everything from scratch and takes much longer but provides a clean and reproducible build environment.
 
 ### 
 

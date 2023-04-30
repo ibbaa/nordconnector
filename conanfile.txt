@@ -3,6 +3,5 @@ cxxopts/3.1.1
 poco/1.12.4
 
 [generators]
-cmake
-#CMakeDeps
-#CMakeToolchain
+CMakeDeps
+CMakeToolchain
