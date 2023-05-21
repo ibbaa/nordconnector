@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 ARG UID
 ARG GID
