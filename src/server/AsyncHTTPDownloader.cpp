@@ -21,6 +21,7 @@ bool AsyncHTTPDownloader::initSSL() {
     try {
         Poco::Net::HTTPStreamFactory::registerFactory();
         Poco::Net::HTTPSStreamFactory::registerFactory();
+        Poco::Net::initializeSSL();
         return true;
     } catch (Poco::Exception &exc) {
         Output::err_output("Error initializing SSL " + exc.displayText() + "\n");
