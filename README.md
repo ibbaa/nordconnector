@@ -73,19 +73,18 @@ There are no installation prerequisites for the docker build (except for docker,
 `nordc --help` prints all available options:
 
 ```
-nordc version 1.0.2, build time Aug 19 2021 18:03:40
+nordc version 1.0.3, build time Jun  9 2023 20:05:28
 Usage:
   nordc [OPTION...] list of countries to connect (separated by blank), if -s is provided a specific server by name
 
-  -s, --server             connect to a specific server by name, otherwise
+  -s, --server             connect to a specific server by name, otherwise 
                            the server is chosen based on a list of countries
   -d, --daemon             run openvpn in daemon mode
   -h, --help               Print help
-  -o, --ovpn arg           Url to retrieve openvpn server configuration
-                           (default:
-                           https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip)
-  -a, --stat arg           Url to retrieve server statistics (default:
-                           https://api.nordvpn.com/server/stats)
+  -e, --version            Print version
+  -o, --ovpn arg           Url to retrieve openvpn server configuration 
+                           (default: https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip)
+  -a, --stat arg           Url to retrieve server statistics (default: https://api.nordvpn.com/server/stats)
   -u, --user arg           User
   -p, --password arg       Password
   -t, --passthrough arg    command line options directly passed to openvpn
