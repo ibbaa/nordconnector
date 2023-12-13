@@ -1,7 +1,7 @@
 [requires]
 cxxopts/3.1.1
-poco/1.12.5p1
-openssl/3.1.4
+poco/1.12.5p2
+openssl/3.2.0
 
 [options]
 openssl/*:shared=False
