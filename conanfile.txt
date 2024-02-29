@@ -1,6 +1,6 @@
 [requires]
 cxxopts/3.2.0
-poco/1.13.1
+poco/1.13.2
 openssl/3.2.1
 
 [options]
