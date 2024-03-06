@@ -19,8 +19,8 @@ class ServerSelector {
     private:
         bool matching_country(const std::string &server, const std::string &country);
         bool valid(const std::string &server);
-        int get_min_load(Poco::JSON::Object::Ptr json_servers, const std::string &country);
-        std::vector<std::pair<std::string, int>> get_acc_servers(Poco::JSON::Object::Ptr json_servers, const std::string &country, int minload, int loadtolerance, int maxload);
+        int get_min_load(const Poco::JSON::Array::Ptr &json_servers, const std::string &country);
+        std::vector<std::pair<std::string, int>> get_acc_servers(const Poco::JSON::Array::Ptr &json_servers, const std::string &country, int minload, int loadtolerance, int maxload);
 
         template<typename T>
         T select_random(T start, T end) {

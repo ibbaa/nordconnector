@@ -7,7 +7,7 @@
 #include "cxxopts.hpp"
 
 #define OVPN_URL_DEFAULT "https://downloads.nordcdn.com/configs/archives/servers/ovpn.zip"
-#define STAT_URL_DEFAULT "https://api.nordvpn.com/server/stats"
+#define STAT_URL_DEFAULT "https://api.nordvpn.com/v1/servers?limit=3000&filters[servers.status]=online&fields[servers.hostname]&fields[servers.load]"
 
 class CommandLineParser {
     public:

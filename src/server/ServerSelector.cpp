@@ -15,14 +15,15 @@ Server ServerSelector::select(const std::string &data, const std::vector<std::st
         Poco::JSON::Parser json_parser;
         Poco::Dynamic::Var json_data = json_parser.parse(data);
         Poco::Dynamic::Var json_result = json_parser.result();
-        Poco::JSON::Object::Ptr json_servers = json_result.extract<Poco::JSON::Object::Ptr>();
+        Poco::JSON::Array::Ptr json_servers = json_result.extract<Poco::JSON::Array::Ptr>();
         std::string country;
         if (countries.empty()) {
             std::vector<std::string> all_countries;
-            for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
-                std::string server = itr->first;
-                if (valid(server)) {
-                    all_countries.push_back(server.substr(0, 2));
+            for (int ii = 0; ii < json_servers->size(); ii++) {
+                Poco::JSON::Object::Ptr server = json_servers->getObject(ii);
+                std::string hostname = server->getValue < std::string > ("hostname");
+                if (valid(hostname)) {
+                    all_countries.push_back(hostname.substr(0, 2));
                 }
             }
             std::vector<std::string>::const_iterator country_iter = select_random(all_countries.begin(), all_countries.end());
@@ -51,58 +52,52 @@ Server ServerSelector::select(const std::string &data, const std::vector<std::st
     return Server { };
 }
 
-int ServerSelector::get_min_load(Poco::JSON::Object::Ptr json_servers, const std::string &country) {
+int ServerSelector::get_min_load(const Poco::JSON::Array::Ptr &json_servers, const std::string &country) {
     int min = 100;
-    for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
-        std::string server = itr->first;
-        if (valid(server) && matching_country(server, country)) {
-            Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
-            Poco::Dynamic::Var lf_obj_val = lf_obj->get("percent");
-            if (lf_obj_val.isInteger()) {
-                int lf = lf_obj_val.convert<int>();
-                if (lf < min) {
-                    min = lf;
-                }
+    for (int ii = 0; ii < json_servers->size(); ii++) {
+        Poco::JSON::Object::Ptr server = json_servers->getObject(ii);
+        std::string hostname = server->getValue < std::string > ("hostname");
+        if (valid(hostname) && matching_country(hostname, country)) {
+            int load = server->getValue<int>("load");
+            if (load < min) {
+                min = load;
             }
         }
     }
     return min;
 }
 
-std::vector<std::pair<std::string, int>> ServerSelector::get_acc_servers(Poco::JSON::Object::Ptr json_servers, const std::string &country, int minload, int loadtolerance, int maxload) {
+std::vector<std::pair<std::string, int>> ServerSelector::get_acc_servers(const Poco::JSON::Array::Ptr &json_servers, const std::string &country, int minload, int loadtolerance, int maxload) {
     std::vector<std::pair<std::string, int>> servers;
-    for (Poco::JSON::Object::Iterator itr = json_servers->begin(); itr != json_servers->end(); ++itr) {
-        std::string server = itr->first;
-        if (valid(server) && matching_country(server, country)) {
-            Poco::JSON::Object::Ptr lf_obj = (itr->second).extract<Poco::JSON::Object::Ptr>();
-            Poco::Dynamic::Var lf_obj_val = lf_obj->get("percent");
-            if (lf_obj_val.isInteger()) {
-                int lf = lf_obj_val.convert<int>();
-                if (lf <= minload) {
-                    servers.push_back(std::make_pair(server, lf));
-                } else if (lf - minload <= loadtolerance && lf <= maxload) {
-                    servers.push_back(std::make_pair(server, lf));
-                }
+    for (int ii = 0; ii < json_servers->size(); ii++) {
+        Poco::JSON::Object::Ptr server = json_servers->getObject(ii);
+        std::string hostname = server->getValue < std::string > ("hostname");
+        if (valid(hostname) && matching_country(hostname, country)) {
+            int load = server->getValue<int>("load");
+            if (load <= minload) {
+                servers.push_back(std::make_pair(hostname, load));
+            } else if (load - minload <= loadtolerance && load <= maxload) {
+                servers.push_back(std::make_pair(hostname, load));
             }
         }
     }
     return servers;
 }
 
-bool ServerSelector::matching_country(const std::string &server, const std::string &country) {
-    return server.find(country) == 0;
+bool ServerSelector::matching_country(const std::string &hostname, const std::string &country) {
+    return hostname.find(country) == 0;
 }
 
-bool ServerSelector::valid(const std::string &server) {
-    int pos = server.rfind("nordvpn.com");
-    if (pos != (server.length() - 11)) {
+bool ServerSelector::valid(const std::string &hostname) {
+    int pos = hostname.rfind("nordvpn.com");
+    if (pos != (hostname.length() - 11)) {
         return false;
     }
-    int cpos = server.find(".");
+    int cpos = hostname.find(".");
     if (cpos == std::string::npos) {
         return false;
     }
-    std::string cpart = server.substr(0, cpos);
+    std::string cpart = hostname.substr(0, cpos);
     if (m_cexpr.match(cpart, 0, m_cmvec)) {
         return true;
     }
