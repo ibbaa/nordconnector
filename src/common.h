@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-const std::string VERSION = "1.0.4";
+const std::string VERSION = "2.0.0";
 
 const int DOWNLOAD_TIMEOUT = 120;
 
