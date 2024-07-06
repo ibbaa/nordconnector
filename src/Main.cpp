@@ -12,6 +12,7 @@
 #include <string>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
 #include "Poco/Path.h"
 
 int Main::main(int argc, char *argv[]) {
@@ -43,6 +44,7 @@ int Main::main(int argc, char *argv[]) {
         Output::err_output("Download error\n");
         return RETURN_CODES::DOWNLOAD_ERROR;
     }
+    umask(0077);
     OVPNConfigReader reader;
     std::string ovpn_config = reader.extract_config(ovpn_data, server.get_address(), options.get_verbose());
     int retry = OVPN_ERROR_RETRY;
