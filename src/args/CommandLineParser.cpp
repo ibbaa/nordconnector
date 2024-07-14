@@ -12,8 +12,8 @@ Options CommandLineParser::parse(int argc, char *argv[]) {
             "Url to retrieve openvpn server configuration", cxxopts::value<std::string>()->default_value(OVPN_URL_DEFAULT))("a,stat", "Url to retrieve server statistics",
             cxxopts::value<std::string>()->default_value(STAT_URL_DEFAULT))("u,user", "User", cxxopts::value<std::string>())("p,password", "Password", cxxopts::value<std::string>())("t,passthrough",
             "command line options directly passed to openvpn", cxxopts::value<std::string>())("l,loadtolerance", "acceptable load tolerance (0 to 100)", cxxopts::value<int>()->default_value("5"))(
-            "m,maxload", "maximum acceptable load (0 to 100)", cxxopts::value<int>()->default_value("70"))("v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries",
-            "", cxxopts::value<std::vector<std::string>>());
+            "m,maxload", "maximum acceptable load (0 to 100)", cxxopts::value<int>()->default_value("70"))("c,tcp", "Use TCP instead of UDP output", cxxopts::value<bool>()->default_value("false"))(
+            "v,verbose", "Verbose output", cxxopts::value<bool>()->default_value("false"))("countries", "", cxxopts::value<std::vector<std::string>>());
     options.parse_positional("countries");
     options.positional_help("list of countries to connect (separated by blank), if -s is provided a specific server by name");
     try {
@@ -27,7 +27,7 @@ Options CommandLineParser::parse(int argc, char *argv[]) {
             exit(RETURN_CODES::OK);
         }
         return Options(get_server(result), get_daemon(result), get_countries(result), get_ovpn(result), get_stat(result), get_user(result), get_password(result), get_passthrough(result),
-                get_loadtolerance(result), get_maxloadh(result), get_verbose(result));
+                get_loadtolerance(result), get_maxload(result), get_tcp(result), get_verbose(result));
     } catch (const cxxopts::exceptions::exception &exc) {
         Output::err_output("Command line option error: " + std::string(exc.what()) + "\n");
         exit(RETURN_CODES::PARSE_ERROR);
@@ -47,6 +47,13 @@ bool CommandLineParser::get_server(const cxxopts::ParseResult &result) const {
 bool CommandLineParser::get_daemon(const cxxopts::ParseResult &result) const {
     if (result.count("daemon")) {
         return result["daemon"].as<bool>();
+    }
+    return false;
+}
+
+bool CommandLineParser::get_tcp(const cxxopts::ParseResult &result) const {
+    if (result.count("tcp")) {
+        return result["tcp"].as<bool>();
     }
     return false;
 }
@@ -98,6 +105,6 @@ int CommandLineParser::get_loadtolerance(const cxxopts::ParseResult &result) con
     return result["loadtolerance"].as<int>();
 }
 
-int CommandLineParser::get_maxloadh(const cxxopts::ParseResult &result) const {
+int CommandLineParser::get_maxload(const cxxopts::ParseResult &result) const {
     return result["maxload"].as<int>();
 }

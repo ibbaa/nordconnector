@@ -38,22 +38,20 @@ int Main::main(int argc, char *argv[]) {
         server = select_server(server_data, options);
     }
     log_server(server, options);
-    bool is_udp = true;
-    std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_UDP_SUFFIX, options.get_verbose());
+    std::future<std::string> stat_ovpn;
+    if (options.get_tcp()) {
+        stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_TCP_SUFFIX, options.get_verbose());
+    } else {
+        stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_UDP_SUFFIX, options.get_verbose());
+    }
     std::string ovpn_data = get_from_future(stat_ovpn);
     if (ovpn_data.empty()) {
-        Output::err_output("UDP download error\n");
-        is_udp = false;
-        stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_TCP_SUFFIX, options.get_verbose());
-        ovpn_data = get_from_future(stat_ovpn);
-        if (ovpn_data.empty()) {
-            Output::err_output("TCP download error\n");
-            return RETURN_CODES::DOWNLOAD_ERROR;
-        }
+        Output::err_output("Download error\n");
+        return RETURN_CODES::DOWNLOAD_ERROR;
     }
     umask(0077);
     OVPNConfigReader reader;
-    std::string ovpn_config = reader.extract_config(ovpn_data, server.get_address(), is_udp, options.get_verbose());
+    std::string ovpn_config = reader.extract_config(ovpn_data, server.get_address(), !options.get_tcp(), options.get_verbose());
     if (ovpn_config.empty()) {
         Output::err_output("Error retrieving openvpn configuration\n");
         return RETURN_CODES::OVPN_CONFIG_ERROR;

@@ -3,8 +3,8 @@
 #include "Poco/RegularExpression.h"
 
 Options::Options(bool server, bool daemon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
-        const std::string &passthrough, int loadtolerance, int maxload, bool verbose) : m_server(server), m_daemon(daemon), m_countries(countries), m_ovpn(ovpn), m_stat(stat), m_user(user), m_password(
-        passsword), m_passthrough(passthrough), m_loadtolerance(loadtolerance), m_maxload(maxload), m_verbose(verbose), m_message("") {
+        const std::string &passthrough, int loadtolerance, int maxload, bool tcp, bool verbose) : m_server(server), m_daemon(daemon), m_countries(countries), m_ovpn(ovpn), m_stat(stat), m_user(user), m_password(
+        passsword), m_passthrough(passthrough), m_loadtolerance(loadtolerance), m_maxload(maxload), m_tcp(tcp), m_verbose(verbose), m_message("") {
 }
 
 bool Options::get_server() const {
@@ -49,6 +49,10 @@ int Options::get_maxload() const {
 
 std::string Options::get_validation_message() const {
     return m_message;
+}
+
+bool Options::get_tcp() const {
+    return m_tcp;
 }
 
 bool Options::get_verbose() const {
@@ -105,6 +109,7 @@ std::string Options::describe() const {
     desc += "User: " + (m_user.size() > 0 ? m_user : "not provided") + "\n";
     desc += "Password: " + std::string(m_password.size() > 0 ? "*********" : "not provided") + "\n";
     desc += "Daemon: " + std::string(m_daemon ? "true" : "false") + "\n";
+    desc += "TCP: " + std::string(m_tcp ? "true" : "false") + "\n";
     desc += "Passthrough: " + std::string(m_passthrough.size() > 0 ? m_passthrough : "not provided") + "\n";
     desc += "Load tolerance: " + std::to_string(m_loadtolerance) + "\n";
     desc += "Max load: " + std::to_string(m_maxload) + "\n";

@@ -16,11 +16,12 @@ class Options {
         std::string m_passthrough;
         int m_maxload;
         int m_loadtolerance;
+        bool m_tcp;
         bool m_verbose;
         std::string m_message;
     public:
         Options(bool server, bool dameon, const std::vector<std::string> &countries, const std::string &ovpn, const std::string &stat, const std::string &user, const std::string &passsword,
-                const std::string &passthrough, int loadtolerance, int maxload, bool verbose);
+                const std::string &passthrough, int loadtolerance, int maxload, bool tcp, bool verbose);
         bool get_server() const;
         bool get_daemon() const;
         std::vector<std::string> get_countries() const;
@@ -31,6 +32,7 @@ class Options {
         std::string get_passthrough() const;
         int get_loadtolerance() const;
         int get_maxload() const;
+        bool get_tcp() const;
         bool get_verbose() const;
         bool validate();
         std::string get_validation_message() const;
