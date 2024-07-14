@@ -1,0 +1,2 @@
+- Added --tcp option to select between UPD and TCP
+- Only the ovpn configuration of the selected server is downloaded for better performance
