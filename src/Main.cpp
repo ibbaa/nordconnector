@@ -31,7 +31,6 @@ int Main::main(int argc, char *argv[]) {
         return RETURN_CODES::SSL_INIT_ERROR;
     }
     AsyncHTTPDownloader downloader;
-    std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn(), options.get_verbose());
     Server server = select_provided_server(options);
     std::string server_data = "";
     if (!server.is_provided()) {
@@ -39,23 +38,22 @@ int Main::main(int argc, char *argv[]) {
         server = select_server(server_data, options);
     }
     log_server(server, options);
-    const std::string &ovpn_data = get_from_future(stat_ovpn);
+    bool is_udp = true;
+    std::future<std::string> stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_UDP_SUFFIX, options.get_verbose());
+    std::string ovpn_data = get_from_future(stat_ovpn);
     if (ovpn_data.empty()) {
-        Output::err_output("Download error\n");
-        return RETURN_CODES::DOWNLOAD_ERROR;
+        Output::err_output("UDP download error\n");
+        is_udp = false;
+        stat_ovpn = downloader.download(options.get_ovpn() + server.get_address() + "." + OVPN_TCP_SUFFIX, options.get_verbose());
+        ovpn_data = get_from_future(stat_ovpn);
+        if (ovpn_data.empty()) {
+            Output::err_output("TCP download error\n");
+            return RETURN_CODES::DOWNLOAD_ERROR;
+        }
     }
     umask(0077);
     OVPNConfigReader reader;
-    std::string ovpn_config = reader.extract_config(ovpn_data, server.get_address(), options.get_verbose());
-    int retry = OVPN_ERROR_RETRY;
-    while (ovpn_config.empty() && retry > 0 && !server.is_provided()) {
-        Output::output("Error retrieving openvpn configuration\n", options.get_verbose());
-        Output::output("Retry...\n", options.get_verbose());
-        server = select_server(server_data, options);
-        log_server(server, options);
-        ovpn_config = reader.extract_config(ovpn_data, server.get_address(), options.get_verbose());
-        retry--;
-    }
+    std::string ovpn_config = reader.extract_config(ovpn_data, server.get_address(), is_udp, options.get_verbose());
     if (ovpn_config.empty()) {
         Output::err_output("Error retrieving openvpn configuration\n");
         return RETURN_CODES::OVPN_CONFIG_ERROR;
