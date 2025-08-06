@@ -6,7 +6,9 @@
 #include <string>
 #include <random>
 #include <iterator>
+#include "Poco/JSON/Object.h"
 #include "Poco/JSON/Parser.h"
+#include "Poco/JSON/Array.h"
 #include "Poco/RegularExpression.h"
 
 class ServerSelector {
