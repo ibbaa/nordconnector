@@ -7,6 +7,7 @@
 #define OVPN_UDP_ZIP_FOLDER "ovpn_udp"
 #define OVPN_TCP_ZIP_FOLDER "ovpn_tcp"
 #define OVPN_UDP_SUFFIX "udp1194.ovpn"
+//#define OVPN_UDP_SUFFIX "udp_2.6.ovpn"
 #define OVPN_TCP_SUFFIX "tcp443.ovpn"
 
 class OVPNConfigReader {
